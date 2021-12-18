@@ -1,5 +1,4 @@
 <?php
-
 class Apps  {
 
     function __construct($con) {

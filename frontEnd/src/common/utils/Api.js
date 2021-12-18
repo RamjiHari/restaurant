@@ -4,18 +4,20 @@ httpClient.defaults.timeout = 10000;
 
 let axiosConfig = {
   headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
+    "Access-Control-Allow-Methods": 'OPTIONS,POST,GET', // this states the allowed methods
+    "Content-Type": "application/json" // this shows the expected content type
   }
 };
-export const fetchApi = async (url, data) => {
 
+
+export const fetchApi = async (url, data) => {
   const reqData= data
 
  console.log(reqData,"VIEW REQ")
   try {
 
-    const response = await axios.post(url, reqData)
+    const response = await axios.post(url, data)
     console.log(response,"ViewRes")
     if (response.status == '200' || response.status == '201') {
       return response.data;

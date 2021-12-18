@@ -1,8 +1,13 @@
-import React,{useState} from 'react';
-import { Link } from 'react-router-dom';
+import React,{useState,useContext} from 'react';
+import { Link , useHistory } from 'react-router-dom';
 import { config } from '../../../common/utils/config';
 import { fetchApi } from '../../../common/utils/Api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure()
 const Login = () => {
+    const history = useHistory();
     const [state, setState] = useState({
         'email':'',
         'password':''
@@ -19,16 +24,22 @@ const Login = () => {
     }
 
     const loginHandle =async () =>{
+        localStorage.setItem('res_user', 'Ram');
+        history.push('/home');
 
-            setLoading(true)
-            const reqData = state
-            const response = await fetchApi( config.HOST_NAME, {...reqData,'request':'loginUser'} )
-            if ( response.status == 'success' ) {
-                console.log(`response.data`, response)
-            setLoading(false)
-            }else{
-                console.log(`response.data`, response)
-            }
+// if(state.email!='' && state.password!=''){
+//             setLoading(true)
+//             const reqData = state
+//             const response = await fetchApi( config.HOST_NAME, {...reqData,'request':'loginUser'} )
+//             if ( response.status == 'success' ) {
+//                 console.log(`response.data`, response)
+//             setLoading(false)
+//             }else{
+//                 toast.warning(response,{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+//             }
+//         }else{
+//             toast.success("Please fill  username and password",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+//         }
     }
     return (
         <div className="authincation h-100">

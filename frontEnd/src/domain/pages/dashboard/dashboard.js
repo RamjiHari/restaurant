@@ -6,16 +6,21 @@ import Register from '../register/register';
 
 
 function Dashboard() {
-  const [login, setlogin] = useState(true)
+  const [login, setlogin] = useState(localStorage.getItem('res_user')!=undefined ? true:false)
+console.log(`object`, login)
   return (
     <div className="wrapper">
-        <Router>
-<Route exact path='/home' component={Main} />
+
+        {login?
+          <Router>
+          <Route exact path='/home' component={Main} />
+
+</Router>:
+<Router>
 <Route exact path='/login' component={Login} />
 <Route exact path='/register' component={Register} />
 </Router>
-
-
+        }
     </div>
   );
 }
