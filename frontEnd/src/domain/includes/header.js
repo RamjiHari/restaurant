@@ -1,10 +1,14 @@
-import React from 'react';
+import React ,{useContext}from 'react';
 import { Link , useHistory } from 'react-router-dom';
+import LoginContext from '../pages/context/LoginContext';
 const Header = () =>  {
     const history = useHistory();
+    const loginContext = useContext(LoginContext);
+    const name = loginContext.userData.name;
     const logout = () =>{
-        localStorage.removeItem('res_user');
-        history.push('/login');
+        loginContext.setLogged(false)
+        loginContext.setUserData('')
+        history.push('/');
     }
     return (
         <div className="header">
@@ -117,7 +121,7 @@ const Header = () =>  {
                         <li className="nav-item dropdown header-profile">
                             <a className="nav-link" href="#" role="button" data-toggle="dropdown">
                                 <div className="header-info">
-                                    <span>Hello, <strong>Samuel</strong></span>
+                                    <span>Hello, <strong>{name}</strong></span>
                                 </div>
                                 <img src="images/profile/pic1.jpg" width="20" alt=""/>
                             </a>

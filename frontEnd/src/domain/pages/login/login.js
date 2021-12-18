@@ -1,9 +1,11 @@
-import React,{useState,useContext} from 'react';
+import React,{useState,useContext,useEffect} from 'react';
 import { Link , useHistory } from 'react-router-dom';
 import { config } from '../../../common/utils/config';
 import { fetchApi } from '../../../common/utils/Api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Axios from 'axios';
+import LoginContext from '../context/LoginContext';
 
 toast.configure()
 const Login = () => {
@@ -14,6 +16,7 @@ const Login = () => {
 
     })
     const [loading, setLoading] = useState( false )
+    const loginContext = useContext(LoginContext);
 
     const onChange=(key,val)=>{
         let updated = {
@@ -23,23 +26,62 @@ const Login = () => {
         setState(updated);
     }
 
-    const loginHandle =async () =>{
-        localStorage.setItem('res_user', 'Ram');
-        history.push('/home');
+//     const loginHandle =async () =>{
+
 
 // if(state.email!='' && state.password!=''){
 //             setLoading(true)
 //             const reqData = state
 //             const response = await fetchApi( config.HOST_NAME, {...reqData,'request':'loginUser'} )
 //             if ( response.status == 'success' ) {
+
+//                 setLoading(false)
+//                 localStorage.setItem('res_user', 'Ram');
+//                  history.push('/home');
 //                 console.log(`response.data`, response)
-//             setLoading(false)
 //             }else{
 //                 toast.warning(response,{position:toast.POSITION.TOP_CENTER,autoClose:8000})
 //             }
 //         }else{
 //             toast.success("Please fill  username and password",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
 //         }
+//     }
+
+
+
+    const loginHandle=async(event)=>{
+        event.preventDefault();
+        if(state.email!='' && state.password!=''){
+        let formData = new FormData();
+        formData.append('request', 'loginUser')
+        formData.append('signinUsername', state.email)
+        formData.append('signinPassword', state.password)
+        Axios({
+            method: 'post',
+            url: `http://localhost:8888/Ramesh/suv/restaurant/backEnd/ajax.php`,
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
+            if(response.data.status=='success'){
+                console.log(response,"response");
+                loginContext.setLogged(true)
+                loginContext.setUserData({name:state.email})
+                // localStorage.setItem('res_user', state.email);
+            }else{
+                toast.warning("UserName or Password Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+                // localStorage.removeItem('res_user');
+            }
+
+        })
+        .catch(function (response) {
+            toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            console.log(response)
+        });
+    }else{
+        toast.success("Please fill  username and password",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+     }
+
     }
     return (
         <div className="authincation h-100">
@@ -71,7 +113,7 @@ const Login = () => {
                                             </div>
                                         </div>
                                         <div className="text-center">
-                                            <button  onClick={()=>loginHandle()} className="btn btn-primary btn-block">Sign Me In</button>
+                                            <button  onClick={(e)=>loginHandle(e)} className="btn btn-primary btn-block">Sign Me In</button>
                                         </div>
                                     <div className="new-account mt-3">
                                         <p>Don't have an account? <Link className="text-primary" to="./register">Sign up</Link></p>

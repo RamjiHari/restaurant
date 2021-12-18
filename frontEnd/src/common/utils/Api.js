@@ -20,7 +20,7 @@ export const fetchApi = async (url, data) => {
     const response = await axios.post(url, data)
     console.log(response,"ViewRes")
     if (response.status == '200' || response.status == '201') {
-      return response.data;
+      return response;
     }
 
   } catch (error) {

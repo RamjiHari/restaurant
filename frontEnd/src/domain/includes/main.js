@@ -7,7 +7,7 @@ import NavHeader from './navHeader';
 import Sidebar from './sidebar';
 const Main = () => {
     return (
-        <div id="main-wrapper">
+        <div>
             <NavHeader/>
             <ChatBox/>
             <Header/>
