@@ -58,7 +58,7 @@ const Login = () => {
         formData.append('signinPassword', state.password)
         Axios({
             method: 'post',
-            url: `http://localhost:8888/Ramesh/suv/restaurant/backEnd/ajax.php`,
+            url:config.HOST_NAME,
             data: formData,
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginContext from '../context/LoginContext';
 import { Link , useHistory } from 'react-router-dom';
+import { config } from '../../../common/utils/config';
 toast.configure();
 const AddItem = ({match}) => {
     const [item_image,set_item_image]=useState('')
@@ -38,7 +39,7 @@ const AddItem = ({match}) => {
         formData.append('editId', edit_id);
         Axios({
             method: 'post',
-            url: `http://localhost:8888/Ramesh/suv/restaurant/backEnd/ajax.php`,
+            url: config.HOST_NAME,
             data: formData,
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
@@ -48,7 +49,7 @@ const AddItem = ({match}) => {
                 setstate(response.data.data)
                 if(response.data.data.image!=''){
                 var preview = document.getElementById("file-ip-1-preview");
-                preview.src = `http://localhost:8888/Ramesh/suv/restaurant/backEnd/uploads/${response.data.data.image}`;
+                preview.src = `${config.FILE_PATH}/${response.data.data.image}`;
                 preview.style.display = "block";
                 }
             }else{
@@ -114,7 +115,7 @@ const AddItem = ({match}) => {
         formData.append('image',state.image);
         Axios({
             method: 'post',
-            url: `http://localhost:8888/Ramesh/suv/restaurant/backEnd/ajax.php`,
+            url: config.HOST_NAME,
             data: formData,
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })

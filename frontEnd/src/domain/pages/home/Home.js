@@ -3,6 +3,7 @@ import React,{useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { config } from '../../../common/utils/config';
 toast.configure();
 const Home = () => {
     const [state, setstate] = useState([])
@@ -11,7 +12,7 @@ const Home = () => {
         formData.append('request', 'getAllItems')
         Axios({
             method: 'post',
-            url: `http://localhost:8888/Ramesh/suv/restaurant/backEnd/ajax.php`,
+            url: config.HOST_NAME,
             data: formData,
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
@@ -58,7 +59,7 @@ const Home = () => {
 							<div class="card-body p-4">
 								<div class="mr-3 text-primary text-center">
 
-								<img src={`http://localhost:8888/Ramesh/suv/restaurant/backEnd/uploads/${item.image}`} width="200" height="200"></img>
+								<img src={`${config.FILE_PATH}/${item.image}`} width="200" height="200"></img>
 								<p class="mb-0 text-black"><span class="counter ml-0">{item.title}</span></p>
 										<p class="mb-0">${item.price}</p>
 										<div class="star-review text-md-center">

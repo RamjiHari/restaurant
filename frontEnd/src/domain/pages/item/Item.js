@@ -3,6 +3,7 @@ import React,{useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { config } from '../../../common/utils/config';
 toast.configure();
 const Item = () => {
     const [state, setstate] = useState([])
@@ -11,7 +12,7 @@ const Item = () => {
         formData.append('request', 'getAllItems')
         Axios({
             method: 'post',
-            url: `http://localhost:8888/Ramesh/suv/restaurant/backEnd/ajax.php`,
+            url: config.HOST_NAME,
             data: formData,
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
@@ -33,7 +34,7 @@ const Item = () => {
     formData.append('id', id)
     Axios({
         method: 'post',
-        url: `http://localhost:8888/Ramesh/suv/restaurant/backEnd/ajax.php`,
+        url: config.HOST_NAME,
         data: formData,
         config: { headers: {'Content-Type': 'multipart/form-data' }}
     })
@@ -89,7 +90,7 @@ const Item = () => {
                                             <td>{item.id}</td>
                                             <td>{item.title}</td>
                                             <td>{item.slug}</td>
-                                            <td><img src={`http://localhost:8888/Ramesh/suv/restaurant/backEnd/uploads/${item.image}`} width="50" height="50"/></td>
+                                            <td><img src={`${config.FILE_PATH}/${item.image}`} width="50" height="50"/></td>
                                                     <td>
 													<div class="d-flex">
 														<Link  to={`/editItem/${item.id}`} class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-pencil"></i></Link>
