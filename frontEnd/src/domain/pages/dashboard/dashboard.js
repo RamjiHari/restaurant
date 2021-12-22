@@ -9,8 +9,11 @@ import Header from '../../includes/header';
 import NavHeader from '../../includes/navHeader';
 import ChatBox from '../../includes/chatBox';
 import Sidebar from '../../includes/sidebar';
-import Home from '../home/Home';
+import Home from '../home/home';
 import Footer from '../../includes/footer';
+import Menu from '../menu/Menu';
+import Item from '../item/Item';
+import AddItem from '../item/AddItem';
 
 function Dashboard() {
   const [login, setlogin] = useState(false)
@@ -29,9 +32,19 @@ console.log(logged,"logged")
  <Router>
   <LoginContext.Provider value={loggedSettings}>
      {logged ?
-
-
-      <Route exact path='/' component={Main} />:
+          <>
+            <NavHeader/>
+            <Footer/>
+            <ChatBox/>
+            <Header/>
+            <Sidebar/>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/menu' component={Menu} />
+            <Route exact path='/item' component={Item} />
+            <Route exact path='/additem' component={AddItem} />
+            <Route exact path='/edititem/:id' component={AddItem} />
+            <Footer/>
+            </>:
 
 
        <Switch>
@@ -39,7 +52,9 @@ console.log(logged,"logged")
             <Route path="/login" component={Login} />
             <Route exact path='/register' component={Register} />
           </Switch>
-     }</LoginContext.Provider></Router>
+     }
+
+     </LoginContext.Provider></Router>
 
   );
 }

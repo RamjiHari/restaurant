@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from '../pages/home/Home';
+import Home from '../pages/home/home';
 import ChatBox from './chatBox';
 import Footer from './footer';
 import Header from './header';

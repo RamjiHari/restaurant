@@ -1,5 +1,32 @@
-import React from 'react';
+import Axios from 'axios';
+import React,{useState,useEffect} from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure();
 const Home = () => {
+    const [state, setstate] = useState([])
+    useEffect(() => {
+        let formData = new FormData();
+        formData.append('request', 'getAllItems')
+        Axios({
+            method: 'post',
+            url: `http://localhost:8888/Ramesh/suv/restaurant/backEnd/ajax.php`,
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
+            if(response.data.status=='success'){
+                setstate(response.data.data)
+            }else{
+                toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            }
+
+        })
+        .catch(function (response) {
+            toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+        });
+    }, [])
     return (
         <div class="content-body">
         <div class="container-fluid">
@@ -24,6 +51,34 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+			<div class="row">
+			{state.map(item=>
+				<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
+						<div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="mr-3 text-primary text-center">
+
+								<img src={`http://localhost:8888/Ramesh/suv/restaurant/backEnd/uploads/${item.image}`} width="200" height="200"></img>
+								<p class="mb-0 text-black"><span class="counter ml-0">{item.title}</span></p>
+										<p class="mb-0">${item.price}</p>
+										<div class="star-review text-md-center">
+											<span class="text-secondary">4.8</span>
+											<i class="fa fa-star text-primary"></i>
+											<i class="fa fa-star text-primary"></i>
+											<i class="fa fa-star text-primary"></i>
+											<i class="fa fa-star text-primary"></i>
+											<i class="fa fa-star text-gray"></i>
+										</div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>)
+			}
+
+			</div>
             <div class="row">
 					<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
 						<div class="widget-stat card">

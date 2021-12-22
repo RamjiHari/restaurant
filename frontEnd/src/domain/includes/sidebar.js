@@ -5,14 +5,14 @@ const Sidebar = () => {
         <div className="deznav">
         <div className="deznav-scroll">
             <ul className="metismenu" id="menu">
-                <li><a className="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <li><Link className="has-arrow ai-icon" to='/' aria-expanded="false">
                         <i className="flaticon-381-networking"></i>
                         <span className="nav-text">Home</span>
-                    </a>
+                    </Link>
                     <ul aria-expanded="false">
-                        {/* <li><a href="index.html">Dashboard</a></li> */}
-                        {/* <li><a href="page-analytics.html">Analytics</a></li>
-                        <li><a href="page-review.html">Review</a></li>
+                       <li><Link to="/item">Items</Link></li>
+                        <li><Link to="/additem">Add Items</Link></li>
+                        {/* <li><a href="page-review.html">Review</a></li>
                         <li><a href="page-order.html">Order</a></li>
                         <li><a href="page-order-list.html">Order List</a></li>
                         <li><a href="page-general-customers.html">General Customers</a></li> */}
