@@ -8,16 +8,16 @@ class Items  {
     }
 
     public function getAllItems(){
-         $select = mysqli_query($this->conn,"SELECT * FROM `item` ORDER BY `id` DESC  ");
+         $select = mysqli_query($this->conn,"SELECT * FROM `item` ORDER BY `id` DESC");
          return mysqli_fetch_all($select,MYSQLI_ASSOC);
     }
     public function insertItems($data,$image){
-      
+  
       if($data['id']==''){
-        $insertItem = mysqli_query($this->conn,"INSERT INTO `item` (`userId`, `vendorId`, `title`, `image`, `slug`, `summary`, `type`, `cooking`, `sku`, `price`, `quantity`, `unit`, `recipe`, `instructions`, `createdAt`, `updatedAt`, `content`) VALUES (".$data['userId'].", ".$data['vendorId'].", '".$data['title']."', '".$image."', '".$data['slug']."', '".$data['summary']."', '".$data['type']."', ".$data['cooking'].", '".$data['sku']."', ".$data['price'].", ".$data['quantity'].", ".$data['unit'].", '".$data['recipe']."', '".$data['instructions']."','".$data['datetime']."', NULL, '".$data['content']."')") or die(mysqli_error());
+        $insertItem = mysqli_query($this->conn,"INSERT INTO `item` (`userId`,  `title`, `image`, `summary`, `price`, `createdAt`, `updatedAt`) VALUES (".$data['userId'].", '".$data['title']."', '".$image."', '".$data['summary']."', ".$data['price'].",'".$data['datetime']."', NULL)") or die(mysqli_error());
     }else{
        
-        $insertItem=mysqli_query($this->conn,"UPDATE `item` SET `userId` = '".$data['userId']."', `vendorId` = '".$data['vendorId']."', `title` = '".$data['title']."', `image` = '".$image."', `slug` = '".$data['slug']."', `summary` = '".$data['summary']."', `type` = '".$data['type']."', `cooking` = '".$data['cooking']."', `sku` = '".$data['sku']."', `price` = '".$data['price']."', `quantity` ='".$data['quantity']."', `unit` = '".$data['unit']."', `recipe` = '".$data['recipe']."', `instructions` = '".$data['instructions']."', `updatedAt` = '".$data['dateTime']."', `content` = '".$data['content']."' WHERE `item`.`id` = '".$data['id']."'") or die(mysqli_error());
+        $insertItem=mysqli_query($this->conn,"UPDATE `item` SET `userId` = '".$data['userId']."' , `title` = '".$data['title']."', `image` = '".$image."', `summary` = '".$data['summary']."',  `price` = '".$data['price']."', `updatedAt` = '".$data['dateTime']."' WHERE `item`.`id` = '".$data['id']."'") or die(mysqli_error());
     }
 
         if($insertItem){

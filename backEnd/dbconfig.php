@@ -8,8 +8,8 @@
 define('DB_SERVER', 'mysql.ngazelabs.com');
 define('DB_USERNAME', 'restaurant_ngaze');
 define('DB_PASSWORD', 'P3rJj8DaTqqQQcq');
-define('DB_DATABASE', 'r1ngaze');
-
+define('DB_DATABASE', 'allskills_ngaze');
+//r1ngaze
 
 $con = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 

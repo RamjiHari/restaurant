@@ -21,6 +21,7 @@ $obj_Items = new Items($con,$APP_PATH);
 
 $userListCount = 10;
 
+
 if(@$_REQUEST['request'] == "loginUser")
 {
 
@@ -32,6 +33,7 @@ if(@$_REQUEST['request'] == "loginUser")
     }
     $response = [
       "status" => $status,
+       "data" =>  $userData
     ];
 
    echo json_encode($response);
@@ -58,7 +60,6 @@ if(@$_REQUEST['request'] == "insertUserFromApp")
 }
 if(@$_REQUEST['request'] == "getAllItems")
 {
-
 
     $itemData = $obj_Items->getAllItems($_REQUEST);
   $status = "failed";

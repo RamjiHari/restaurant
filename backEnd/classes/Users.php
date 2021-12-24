@@ -10,9 +10,8 @@ class Users  {
     public function login($uname,$password){
         $select = mysqli_query($this->conn,"select * from `users` where (`email` = '$uname' or `username` = '$uname' ) and `password` = '$password' and `active` = 1 ") ;
         if(mysqli_num_rows($select) > 0){
-            // $row_user = mysqli_fetch_assoc($select);
-            // return $row_user;
-           return true;
+            $row_user = mysqli_fetch_assoc($select);
+            return $row_user;
         }else{
             return false;
         }
