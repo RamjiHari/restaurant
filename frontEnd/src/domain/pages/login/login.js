@@ -64,13 +64,13 @@ const Login = () => {
         })
         .then(function (response) {
             if(response.data.status=='success'){
-                console.log(response,"response");
+                console.log(response.data.data,",response.data.data");
                 loginContext.setLogged(true)
-                loginContext.setUserData({name:state.email})
-                // localStorage.setItem('res_user', state.email);
+                loginContext.setUserData(response.data.data)
+                localStorage.setItem('res_user',JSON.stringify(response.data.data));
             }else{
                 toast.warning("UserName or Password Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-                // localStorage.removeItem('res_user');
+                localStorage.removeItem('res_user');
             }
 
         })

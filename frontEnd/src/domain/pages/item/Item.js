@@ -7,6 +7,7 @@ import { config } from '../../../common/utils/config';
 toast.configure();
 const Item = () => {
     const [state, setstate] = useState([])
+
     useEffect(() => {
         let formData = new FormData();
         formData.append('request', 'getAllItems')
@@ -17,7 +18,9 @@ const Item = () => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
+
             if(response.data.status=='success'){
+
                 setstate(response.data.data)
             }else{
                 toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
@@ -78,7 +81,7 @@ const Item = () => {
 
                                                 <th><strong>S.No</strong></th>
                                                 <th><strong>Title</strong></th>
-                                                <th><strong>Slug</strong></th>
+
                                                 <th><strong>Image</strong></th>
                                                 <th><strong>Action</strong></th>
                                             </tr>
@@ -89,7 +92,7 @@ const Item = () => {
                                             <tr key={item.id}>
                                             <td>{item.id}</td>
                                             <td>{item.title}</td>
-                                            <td>{item.slug}</td>
+
                                             <td><img src={`${config.FILE_PATH}/${item.image}`} width="50" height="50"/></td>
                                                     <td>
 													<div class="d-flex">

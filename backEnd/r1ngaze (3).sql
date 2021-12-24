@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Dec 22, 2021 at 03:23 AM
+-- Generation Time: Dec 24, 2021 at 06:49 AM
 -- Server version: 5.7.30
 -- PHP Version: 7.4.9
 
@@ -98,6 +98,32 @@ CREATE TABLE `ingredient` (
 
 CREATE TABLE `item` (
   `id` bigint(20) NOT NULL,
+  `userId` bigint(20) DEFAULT NULL,
+  `title` varchar(75) NOT NULL,
+  `image` varchar(50) DEFAULT NULL,
+  `summary` tinytext,
+  `price` float NOT NULL DEFAULT '0',
+  `createdAt` varchar(100) NOT NULL,
+  `updatedAt` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `item`
+--
+
+INSERT INTO `item` (`id`, `userId`, `title`, `image`, `summary`, `price`, `createdAt`, `updatedAt`) VALUES
+(36, 5, 'Hydrababd Biryanis', 'Biryani_Home.jpeg', 'Changes Required', 100, '', 'Thu Dec 23 2021 08:28:47 GMT+0530 (India Standard Time)'),
+(37, 1, 'Amboor Biryani', 'images.jpeg', 'Amboor ', 200, '', NULL),
+(38, 5, 'Thalapkatu', 'images.jpeg', 'Thalapakatu', 200, '', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `itemss`
+--
+
+CREATE TABLE `itemss` (
+  `id` bigint(20) NOT NULL,
   `userId` bigint(20) NOT NULL,
   `vendorId` bigint(20) DEFAULT NULL,
   `title` varchar(75) NOT NULL,
@@ -116,14 +142,6 @@ CREATE TABLE `item` (
   `updatedAt` varchar(100) DEFAULT NULL,
   `content` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `item`
---
-
-INSERT INTO `item` (`id`, `userId`, `vendorId`, `title`, `image`, `slug`, `summary`, `type`, `cooking`, `sku`, `price`, `quantity`, `unit`, `recipe`, `instructions`, `createdAt`, `updatedAt`, `content`) VALUES
-(28, 1, 1, 'Hyd Biryani', 'Biryani_Home.jpeg', 'hyd_biryanis', 'Summary', 1, 1, '', 100, 12, 0, '', '', '', 'Wed Dec 22 2021 08:10:32 GMT+0530 (India Standard Time)', 'Content'),
-(35, 1, 1, 'Amboor Biryani', 'images.jpeg', 'amb_biryani', 'Summary', 1, 1, '', 100, 12, 0, '', '', '', 'Wed Dec 22 2021 08:10:32 GMT+0530 (India Standard Time)', 'Content');
 
 -- --------------------------------------------------------
 
@@ -387,6 +405,12 @@ ALTER TABLE `ingredient`
 -- Indexes for table `item`
 --
 ALTER TABLE `item`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `itemss`
+--
+ALTER TABLE `itemss`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_slug` (`slug`),
   ADD KEY `idx_item_user` (`userId`),
@@ -504,7 +528,13 @@ ALTER TABLE `ingredient`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `itemss`
+--
+ALTER TABLE `itemss`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `item_chef`
@@ -588,7 +618,7 @@ ALTER TABLE `booking`
 --
 ALTER TABLE `booking_item`
   ADD CONSTRAINT `fk_booking_item_booking` FOREIGN KEY (`bookingId`) REFERENCES `booking` (`id`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_booking_item_item` FOREIGN KEY (`itemId`) REFERENCES `item` (`id`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_booking_item_item` FOREIGN KEY (`itemId`) REFERENCES `itemss` (`id`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `ingredient`
@@ -598,9 +628,9 @@ ALTER TABLE `ingredient`
   ADD CONSTRAINT `fk_ingredient_vendor` FOREIGN KEY (`vendorId`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `item`
+-- Constraints for table `itemss`
 --
-ALTER TABLE `item`
+ALTER TABLE `itemss`
   ADD CONSTRAINT `fk_item_user` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_item_vendor` FOREIGN KEY (`vendorId`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -609,7 +639,7 @@ ALTER TABLE `item`
 --
 ALTER TABLE `item_chef`
   ADD CONSTRAINT `fk_item_chef_chef` FOREIGN KEY (`chefId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_item_chef_item` FOREIGN KEY (`itemId`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_item_chef_item` FOREIGN KEY (`itemId`) REFERENCES `itemss` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `menu`
@@ -621,7 +651,7 @@ ALTER TABLE `menu`
 -- Constraints for table `menu_item`
 --
 ALTER TABLE `menu_item`
-  ADD CONSTRAINT `fk_menu_item_item` FOREIGN KEY (`itemId`) REFERENCES `item` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_menu_item_item` FOREIGN KEY (`itemId`) REFERENCES `itemss` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_menu_item_menu` FOREIGN KEY (`menuId`) REFERENCES `menu` (`id`) ON UPDATE NO ACTION;
 
 --
@@ -635,14 +665,14 @@ ALTER TABLE `order`
 -- Constraints for table `order_item`
 --
 ALTER TABLE `order_item`
-  ADD CONSTRAINT `fk_order_item_item` FOREIGN KEY (`itemId`) REFERENCES `item` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_order_item_item` FOREIGN KEY (`itemId`) REFERENCES `itemss` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_order_item_order` FOREIGN KEY (`orderId`) REFERENCES `order` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `recipe`
 --
 ALTER TABLE `recipe`
-  ADD CONSTRAINT `fk_recipe_item` FOREIGN KEY (`itemId`) REFERENCES `item` (`id`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_recipe_item` FOREIGN KEY (`itemId`) REFERENCES `itemss` (`id`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `transaction`

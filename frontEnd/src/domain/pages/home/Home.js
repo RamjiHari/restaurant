@@ -4,37 +4,18 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { config } from '../../../common/utils/config';
+import { useGetAllProductsQuery } from '../feature/productsApi';
 toast.configure();
 const Home = () => {
-    const [state, setstate] = useState([])
-    useEffect(() => {
-        let formData = new FormData();
-        formData.append('request', 'getAllItems')
-        Axios({
-            method: 'post',
-            url: config.HOST_NAME,
-            data: formData,
-            config: { headers: {'Content-Type': 'multipart/form-data' }}
-        })
-        .then(function (response) {
-            if(response.data.status=='success'){
-                setstate(response.data.data)
-            }else{
-                toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-            }
-
-        })
-        .catch(function (response) {
-            toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-        });
-    }, [])
+	const [state, setstate] = useState([])
+	const { data, error, isLoading } = useGetAllProductsQuery({'request':'getAllItems'});
     return (
         <div class="content-body">
         <div class="container-fluid">
             <div class="form-head d-flex mb-3 align-items-start">
                 <div class="mr-auto d-none d-lg-block">
                     <h2 class="text-black font-w600 mb-0">Dashboard</h2>
-                    <p class="mb-0">Welcome to Davur Admin!</p>
+                    <p class="mb-0">Welcome</p>
                 </div>
 
                 <div class="dropdown custom-dropdown">
@@ -53,32 +34,32 @@ const Home = () => {
                 </div>
             </div>
 			<div class="row">
-			{state.map(item=>
-				<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
-						<div class="widget-stat card">
-							<div class="card-body p-4">
-								<div class="mr-3 text-primary text-center">
 
-								<img src={`${config.FILE_PATH}/${item.image}`} width="200" height="200"></img>
-								<p class="mb-0 text-black"><span class="counter ml-0">{item.title}</span></p>
-										<p class="mb-0">${item.price}</p>
-										<div class="star-review text-md-center">
-											<span class="text-secondary">4.8</span>
-											<i class="fa fa-star text-primary"></i>
-											<i class="fa fa-star text-primary"></i>
-											<i class="fa fa-star text-primary"></i>
-											<i class="fa fa-star text-primary"></i>
-											<i class="fa fa-star text-gray"></i>
-										</div>
-								</div>
-
-							</div>
-
-						</div>
-
-					</div>)
+			{data && data.data.map(item=>	<div class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="new-arrival-product">
+                                    <div class="new-arrivals-img-contnent">
+                                       <Link to={`/items/${item.id}`}>
+									   <img class="img-fluid"src={`${config.FILE_PATH}/${item.image}`}  alt=""/>
+									   </Link>
+                                    </div>
+                                    <div class="new-arrival-content text-center mt-3">
+                                        <h4>{item.title}</h4>
+                                        <ul class="star-rating">
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star-half-empty"></i></li>
+                                            <li><i class="fa fa-star-half-empty"></i></li>
+                                        </ul>
+                                        <span class="price">${item.price}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						</div>)
 			}
-
 			</div>
             <div class="row">
 					<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
