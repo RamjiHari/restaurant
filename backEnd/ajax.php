@@ -7,6 +7,7 @@ require_once 'dbconfig.php';
 include 'classes/Apps.php';
 include 'classes/Users.php';
 include 'classes/Items.php';
+include 'classes/Restaurant.php';
 
 
 
@@ -17,6 +18,7 @@ $settings = $obj_Apps->getSettings();
 $APP_PATH = $obj_Apps->getAppPath();
 $obj_Users = new Users($con,$APP_PATH);
 $obj_Items = new Items($con,$APP_PATH);
+$obj_Resta = new Restaurant($con,$APP_PATH);
 
 
 $userListCount = 10;
@@ -98,10 +100,59 @@ if(@$_REQUEST['request'] == "insertItems")
  echo json_encode($response);
 
 }
+if(@$_REQUEST['request'] == "insertRestaurant")
+{
+    
+   
+    $ResData = $obj_Resta->insertRestaurant($_REQUEST);
+    if($ResData){
+     $status = "success";    
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+    ];
+
+ echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "getRes")
+{
+
+    $itemData = $obj_Resta->getRes($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+
 if(@$_REQUEST['request'] == "getItem")
 {
 
     $itemData = $obj_Items->getItem($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+
+if(@$_REQUEST['request'] == "getAllRes")
+{
+
+    $itemData = $obj_Resta->getAllRes($_REQUEST);
   $status = "failed";
   if($itemData){
     $status = "success";
@@ -126,6 +177,80 @@ if(@$_REQUEST['request'] == "deleteItem")
     "status" => $status,
     "data" =>   $itemData
   ];
+   echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "deleteRest")
+{
+
+    $itemData = $obj_Resta->deleteItem($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+
+if(@$_REQUEST['request'] == "insertAddressFromApp")
+{
+
+
+    $userData = $obj_Items->insertAddress($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+    ];
+
+   echo json_encode($response);
+
+}
+
+if(@$_REQUEST['request'] == "insertOrdersFromApp")
+{
+// print_r($_REQUEST['orderjson']);
+
+    $userData = $obj_Items->insertOrders($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+      "_REQUEST"=>$_REQUEST['orderjson']
+    ];
+
+   echo json_encode($response);
+
+}
+
+if(@$_REQUEST['request'] == "getOrdersFromApp")
+{
+// print_r($_REQUEST['orderjson']);
+
+    $userData = $obj_Items->getOrdersFromApp($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+      "data" =>   $userData
+    ];
+
    echo json_encode($response);
 
 }

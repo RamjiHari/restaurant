@@ -1,33 +1,73 @@
-import React,{useEffect} from 'react';
-import { Link } from "react-router-dom";
+import Axios from 'axios';
+import React,{useState,useEffect} from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { config } from '../../../common/utils/config';
 import { useDispatch, useSelector } from "react-redux";
 import {
-    addToCart,
-    clearCart,
-    decreaseCart,
-    getTotals,
-    removeFromCart,
+    confirmCart,
   } from "../feature/cartSlice.js";
-import { config } from '../../../common/utils/config.js';
-const Cart = () => {
-    const cart = useSelector((state) => state.cart);
+toast.configure();
+const OrderItem = () => {
+    const [state, setstate] = useState([])
+    const id = localStorage.getItem("res_user")
+    ? JSON.parse(localStorage.getItem("res_user"))
+    : '';
     const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart);
+    const addConfirmCart = () => {
+        dispatch(confirmCart())
+      };
     useEffect(() => {
-        dispatch(getTotals());
-      }, [cart, dispatch]);
+        let formData = new FormData();
+        formData.append('request', 'getOrdersFromApp')
+        formData.append('userId', id.id)
+        Axios({
+            method: 'post',
+            url: config.HOST_NAME,
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
+            console.log(`responseresponse`, response)
+            if(response.data.status=='success'){
 
-      const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
-      };
-      const handleDecreaseCart = (product) => {
-        dispatch(decreaseCart(product));
-      };
-      const handleRemoveFromCart = (product) => {
-        dispatch(removeFromCart(product));
-      };
-      const handleClearCart = () => {
-        dispatch(clearCart());
-      };
+                setstate(response.data.data)
+                //addConfirmCart()
+            }else{
+                //toast.warning("No",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            }
+
+        })
+        .catch(function (response) {
+            toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+        });
+    }, [])
+    console.log(`statssse`, state)
+//  const handleDelete = (id) => {
+//     let formData = new FormData();
+//     formData.append('request', 'deleteItem')
+//     formData.append('id', id)
+//     Axios({
+//         method: 'post',
+//         url: config.HOST_NAME,
+//         data: formData,
+//         config: { headers: {'Content-Type': 'multipart/form-data' }}
+//     })
+//     .then(function (response) {
+//         if(response.data.status=='success'){
+//             toast.warning("Deleted Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+//             setstate(response.data.data)
+//         }else{
+//             toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+//         }
+
+//     })
+//     .catch(function (response) {
+//         toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+//     });
+//  }
     return (
         <div class="content-body">
         <div class="container-fluid">
@@ -54,10 +94,10 @@ const Cart = () => {
             </div>
 			<div class="row">
 <div className="cart-container">
-      <h2>Shopping Cart</h2>
-      {cart.cartItems.length === 0 ? (
+      <h2>Your Orders</h2>
+      {state.length === 0 ? (
         <div className="cart-empty">
-          <p>Your cart is currently empty</p>
+          <p>Your Orders</p>
           <div className="start-shopping">
             <Link to="/">
               <svg
@@ -86,46 +126,31 @@ const Cart = () => {
             <h3 className="total">Total</h3>
           </div>
           <div className="cart-items">
-            {cart.cartItems &&
-              cart.cartItems.map((cartItem) => (
-                <div className="cart-item" key={cartItem.id}>
+            {state &&
+              state.map((state) => (
+                <div className="cart-item" key={state.id}>
                   <div className="cart-product">
-                  <img src={config.FILE_PATH+'/'+cartItem.image} alt={cartItem.name} />
+                  <img src={config.FILE_PATH+'/'+state.image} alt={state.name} />
                     <div>
-                      <h3>{cartItem.title}</h3>
-                      <p>{cartItem.summary}</p>
-                      <button onClick={() => handleRemoveFromCart(cartItem)}>
-                        Remove
-                      </button>
+                      <h3>{state.title}</h3>
+                      <p>{state.summary}</p>
+
                     </div>
                   </div>
-                  <div className="cart-product-price">${cartItem.price}</div>
+                  <div className="cart-product-price">${state.price}</div>
                   <div className="cart-product-quantity">
-                    <button onClick={() => handleDecreaseCart(cartItem)}>
-                      -
-                    </button>
-                    <div className="count">{cartItem.cartQuantity}</div>
-                    <button onClick={() => handleAddToCart(cartItem)}>+</button>
+
+                    <div className="count">{state.cartQuantity}</div>
+
                   </div>
                   <div className="cart-product-total-price">
-                    ${cartItem.price * cartItem.cartQuantity}
+                    ${state.price * state.cartQuantity}
                   </div>
                 </div>
               ))}
           </div>
-          <div className="cart-summary">
-            <button className="clear-btn" onClick={() => handleClearCart()}>
-              Clear Cart
-            </button>
-            <div className="cart-checkout">
-              <div className="subtotal">
-                <span>Subtotal</span>
-                <span className="amount">${cart.cartTotalAmount}</span>
-              </div>
-              <p>Taxes and shipping calculated at checkout</p>
-              <Link to='/checkout'><button>Check out</button></Link>
-              <div className="continue-shopping">
-                <Link to="/">
+          {/* <div className="cart-summary">
+          <Link to="/">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -141,16 +166,24 @@ const Cart = () => {
                   </svg>
                   <span>Continue Shopping</span>
                 </Link>
+            <div className="cart-checkout">
+              <div className="subtotal">
+                <span>Subtotal</span>
+                <span className="amount">$888</span>
+              </div>
+
+              <div className="continue-shopping">
+
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>
     </div>
     </div>
     </div>
-    )
+    );
 }
 
-export default Cart;
+export default OrderItem;

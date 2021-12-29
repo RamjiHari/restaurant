@@ -1,4 +1,4 @@
-import React ,{useContext}from 'react';
+import React ,{useContext,useEffect}from 'react';
 import { Link , useHistory } from 'react-router-dom';
 import LoginContext from '../pages/context/LoginContext';
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ const Header = () =>  {
     const name = localStorage.getItem("res_user")
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
+
 
     const { cartTotalQuantity } = useSelector((state) => state.cart);
     const logout = () =>{

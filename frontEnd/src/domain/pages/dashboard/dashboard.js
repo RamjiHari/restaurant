@@ -18,6 +18,12 @@ import ItemDetails from '../item/ItemDetails';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cart from '../cart/cart';
+import Checkout from '../checkout/checkout';
+import Deliver from '../checkout/deliver';
+import OrderItem from '../item/OrderItem';
+import ListRestaurant from '../Restaurant/list';
+import Restaurant from '../Restaurant/restaurant';
+
 function Dashboard() {
   const [login, setlogin] = useState(false)
 
@@ -56,6 +62,12 @@ console.log(`logged`, logged)
             <Route exact path='/items/:id' component={ItemDetails} />
             <Route exact path='/edititem/:id' component={AddItem} />
             <Route exact path='/cart' component={Cart} />
+            <Route exact path='/checkout' component={Checkout} />
+            <Route exact path='/buy' component={Deliver} />
+            <Route exact path='/orders' component={OrderItem} />
+            <Route exact path='/addRestaurant' component={Restaurant} />
+            <Route exact path='/restaurant' component={ListRestaurant} />
+            <Route exact path='/editRestaurant/:id' component={Restaurant} />
 
             <Footer/>
             </>:
@@ -64,6 +76,7 @@ console.log(`logged`, logged)
        <Switch>
             <Route exact path='/' component={Login} />
             <Route path="/login" component={Login} />
+            <Route path="/superadmin" component={Login} />
             <Route exact path='/register' component={Register} />
           </Switch>
      }

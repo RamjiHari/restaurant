@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 const Sidebar = () => {
+    const id = localStorage.getItem("res_user")
+    ? JSON.parse(localStorage.getItem("res_user"))
+    : '';
     return (
         <div className="deznav">
         <div className="deznav-scroll">
@@ -10,10 +14,13 @@ const Sidebar = () => {
                         <span className="nav-text">Home</span>
                     </Link>
                     <ul aria-expanded="false">
-                       <li><Link to="/item">Items</Link></li>
-                        <li><Link to="/additem">Add Items</Link></li>
-                        {/* <li><a href="page-review.html">Review</a></li>
-                        <li><a href="page-order.html">Order</a></li>
+                      {id.privilege=='2' &&  <li><Link to="/item">Items</Link></li>}
+                      {id.privilege=='2' &&  <li><Link to="/additem">Add Items</Link></li>}
+                      {id.privilege=='1'  &&   <li><Link to="/orders">Orders</Link></li>}
+                      {id.privilege=='3'  &&   <li><Link to="/restaurant">Restaurant</Link></li>}
+                      {id.privilege=='3'  &&   <li><Link to="/addRestaurant">AddRestaurant</Link></li>}
+
+                        {/*<li><a href="page-order.html">Order</a></li>
                         <li><a href="page-order-list.html">Order List</a></li>
                         <li><a href="page-general-customers.html">General Customers</a></li> */}
                     </ul>
