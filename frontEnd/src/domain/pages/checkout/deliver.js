@@ -7,8 +7,9 @@ import { toast } from "react-toastify";
 import {
     clearCart,
   } from "../feature/cartSlice.js";
-const Deliver = () => {
+const Deliver = ({match}) => {
     const cart = useSelector((state) => state.cart);
+    var addId = match.params.id ? match.params.id : ''
     const dispatch = useDispatch();
     const id = localStorage.getItem("res_user")
     ? JSON.parse(localStorage.getItem("res_user"))
@@ -45,8 +46,8 @@ const checkout = (event) =>{
      console.log(`typeOf()`, typeof(orderjson),orderjson)
     let formData = new FormData();
     formData.append('request', 'insertOrdersFromApp')
-    formData.append('userId', id.id)
-    formData.append('addId', '11')
+    formData.append('userId', id.id!=undefined?id.id:0)
+    formData.append('addId', addId)
     formData.append('orderjson', JSON.stringify(orderjson))
     formData.append('totAmt', cart.cartTotalAmount)
     formData.append('totQua', cart.cartTotalQuantity)
@@ -58,11 +59,12 @@ const checkout = (event) =>{
         config: { headers: {'Content-Type': 'multipart/form-data' }}
     })
     .then(function (response) {
-        console.log(`object`, response)
+        console.log(`object`, response.data)
         if(response.data.status=='success'){
 
             toast.warning("Order Added Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             dispatch(clearCart())
+            history.push('/')
         }else{
             toast.warning("Some thing error",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }

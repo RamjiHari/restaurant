@@ -26,29 +26,6 @@ const Login = () => {
         setState(updated);
     }
 
-//     const loginHandle =async () =>{
-
-
-// if(state.email!='' && state.password!=''){
-//             setLoading(true)
-//             const reqData = state
-//             const response = await fetchApi( config.HOST_NAME, {...reqData,'request':'loginUser'} )
-//             if ( response.status == 'success' ) {
-
-//                 setLoading(false)
-//                 localStorage.setItem('res_user', 'Ram');
-//                  history.push('/home');
-//                 console.log(`response.data`, response)
-//             }else{
-//                 toast.warning(response,{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-//             }
-//         }else{
-//             toast.success("Please fill  username and password",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-//         }
-//     }
-
-
-
     const loginHandle=async(event)=>{
         event.preventDefault();
         if(state.email!='' && state.password!=''){
@@ -63,11 +40,14 @@ const Login = () => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
+
             if(response.data.status=='success'){
+                console.log(`responseresponse`, response.data)
                 console.log(response.data.data,",response.data.data");
                 loginContext.setLogged(true)
                 loginContext.setUserData(response.data.data)
                 localStorage.setItem('res_user',JSON.stringify(response.data.data));
+                history.push('/')
             }else{
                 toast.warning("UserName or Password Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
                 localStorage.removeItem('res_user');
@@ -75,7 +55,7 @@ const Login = () => {
 
         })
         .catch(function (response) {
-            toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            toast.warning("Server Prosssblem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             console.log(response)
         });
     }else{
@@ -117,6 +97,9 @@ const Login = () => {
                                         </div>
                                     <div className="new-account mt-3">
                                         <p>Don't have an account? <Link className="text-primary" to="./register">Sign up</Link></p>
+                                    </div>
+                                    <div className="new-account mt-3">
+                                        <p>Login as guest <Link className="text-primary" to="./guest">Guest</Link></p>
                                     </div>
                                 </div>
                             </div>

@@ -137,7 +137,7 @@ const Restaurant = ({match}) => {
                                                 <div class="col-lg-4 mb-3">
                                                     <div class="form-group">
                                                         <label class="text-label">Password*</label>
-                                                        <input type="text" name="password" class="form-control" onChange={(val)=>onChange('password',val.target.value)} value={state.password}/>
+                                                        <input type="password" name="password" class="form-control" onChange={(val)=>onChange('password',val.target.value)} value={state.password}/>
                                                     </div>
                                                 </div>
 

@@ -7,9 +7,15 @@ class Items  {
         $this->app_path = $app_path;
     }
 
-    public function getAllItems(){
-         $select = mysqli_query($this->conn,"SELECT * FROM `item` ORDER BY `id` DESC");
+    public function getAllItems($data){
+
+       $selectId = mysqli_query($this->conn,"select * from `users` where (`email` ='".$data['id']."'  or `username` = '".$data['id']."' )") ;
+         $row_user= mysqli_fetch_assoc($selectId);
+        if( $row_user!=''){
+         
+         $select = mysqli_query($this->conn,"SELECT * FROM `item` where userId='".$row_user['id']."'  ORDER BY `id` DESC");
          return mysqli_fetch_all($select,MYSQLI_ASSOC);
+       }
     }
     public function insertItems($data,$image){
   
@@ -44,9 +50,9 @@ class Items  {
   
 
         $inserAdd = mysqli_query($this->conn,"INSERT INTO `address` (`userId`, `country`, `fullName`, `email`, `pincode`, `homeNo`, `street`, `landmark`, `city`, `mobNo`, `state`) VALUES (".$data['userId'].", '".$data['country']."', '".$data['fullName']."', '".$data['email']."', '".$data['pincode']."', '".$data['homeNo']."', '".$data['street']."', '".$data['landmark']."', '".$data['city']."','".$data['mobNo']."', '".$data['state']."')") or die(mysqli_error());
-   
+     $last_id = mysqli_insert_id($this->conn);
         if($inserAdd){
-            return true;
+            return $last_id;
       }else{
             return false;
       }
@@ -56,6 +62,7 @@ class Items  {
   $json_enc=json_encode($data['orderjson']);
 
         $inserAdd = mysqli_query($this->conn,"INSERT INTO `orders` ( `userId`, `addId`, `orderjson`, `totAmt`, `totQua`, `payMode`, `status`) VALUES (".$data['userId'].", ".$data['addId'].", ".$json_enc.", ".$data['totAmt'].", ".$data['totQua'].", '".$data['payMode']."', 0)") or die(mysqli_error());
+
    
         if($inserAdd){
             return true;
@@ -91,6 +98,10 @@ class Items  {
           return $rows;
          }
         
+    }
+        public function getAddressFromApp($data){
+         $select = mysqli_query($this->conn,"SELECT * FROM `address` WHERE userId='".$data['id']."'");
+         return mysqli_fetch_all($select,MYSQLI_ASSOC);
     }
 }
 

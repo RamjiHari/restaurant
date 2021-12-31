@@ -286,6 +286,8 @@ class Users  {
 
     public function insertUserFromApp($data)
     {
+       $select = mysqli_query($this->conn,"select * from `users` where (`email` = '".$data['signupUsername']."' or `username` = '".$data['signupUsername']."')") ;
+        if(mysqli_num_rows($select) ==0){
 
       $insertAppUser  = mysqli_query($this->conn,"INSERT INTO `users` (`username`,`password`,`email`) values('".$data['signupUsername']."','".$data['signupPassword']."','".$data['signupEmail']."')") or die(mysqli_error());
       if($insertAppUser){
@@ -293,6 +295,9 @@ class Users  {
       }else{
             return false;
       }
+    }else{
+     return false;
+    }
     }
 
     public function insertAppUser($data)

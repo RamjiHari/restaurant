@@ -42,11 +42,13 @@ if(state.email!='' && state.password!='' && state.username!=''){
             console.log(response,"response");
             history.push('/login');
         }else{
-            toast.warning("UserName or Password Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            toast.warning("UserName Already Exists",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             localStorage.removeItem('res_user');
         }
 
     })
+
+
     .catch(function (response) {
         toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         console.log(response)
@@ -55,6 +57,7 @@ if(state.email!='' && state.password!='' && state.username!=''){
     toast.success("Please fill  username and password",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
  }
     }
+
     return (
         <div className="authincation h-100">
         <div className="container h-100">
@@ -83,7 +86,7 @@ if(state.email!='' && state.password!='' && state.username!=''){
                                         </div>
 
                                     <div className="new-account mt-3">
-                                        <p>Already have an account? <Link className="text-primary" to="/">Sign in</Link></p>
+                                        <p>Already have an account? <Link className="text-primary" to="/login">Sign in</Link></p>
                                     </div>
                                 </div>
                             </div>

@@ -1,16 +1,19 @@
 import Axios from 'axios';
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { config } from '../../../common/utils/config';
+import LoginContext from '../context/LoginContext';
 toast.configure();
 const Item = () => {
     const [state, setstate] = useState([])
-
+    const loginContext = useContext(LoginContext);
+    const id = loginContext.userData==undefined?'': loginContext.userData.username;
     useEffect(() => {
         let formData = new FormData();
         formData.append('request', 'getAllItems')
+        formData.append('id', id)
         Axios({
             method: 'post',
             url: config.HOST_NAME,

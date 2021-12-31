@@ -1,10 +1,15 @@
-import React from 'react';
+import React ,{useContext}from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
+import LoginContext from '../pages/context/LoginContext';
 const Sidebar = () => {
+    const loginContext = useContext(LoginContext);
+    const privilege=loginContext.userData ==undefined ?'':loginContext.userData.privilege
     const id = localStorage.getItem("res_user")
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
+
+
     return (
         <div className="deznav">
         <div className="deznav-scroll">
@@ -14,11 +19,11 @@ const Sidebar = () => {
                         <span className="nav-text">Home</span>
                     </Link>
                     <ul aria-expanded="false">
-                      {id.privilege=='2' &&  <li><Link to="/item">Items</Link></li>}
-                      {id.privilege=='2' &&  <li><Link to="/additem">Add Items</Link></li>}
-                      {id.privilege=='1'  &&   <li><Link to="/orders">Orders</Link></li>}
-                      {id.privilege=='3'  &&   <li><Link to="/restaurant">Restaurant</Link></li>}
-                      {id.privilege=='3'  &&   <li><Link to="/addRestaurant">AddRestaurant</Link></li>}
+                      {privilege=='4' &&  <li><Link to="/item">Items</Link></li>}
+                      {privilege=='4' &&  <li><Link to="/additem">Add Items</Link></li>}
+                      {privilege=='1'  &&   <li><Link to="/orders">Orders</Link></li>}
+                      {privilege=='3'  &&   <li><Link to="/restaurant">Restaurant</Link></li>}
+                      {privilege=='3'  &&   <li><Link to="/addRestaurant">AddRestaurant</Link></li>}
 
                         {/*<li><a href="page-order.html">Order</a></li>
                         <li><a href="page-order-list.html">Order List</a></li>

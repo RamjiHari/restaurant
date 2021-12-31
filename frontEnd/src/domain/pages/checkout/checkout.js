@@ -3,13 +3,17 @@ import { Link , useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { config } from '../../../common/utils/config.js';
 import axios from "axios";
+import { toast } from 'react-toastify';
+import Axios from 'axios';
 const Checkout = () => {
     const cart = useSelector((state) => state.cart);
     const dispatch = useDispatch();
     const id = localStorage.getItem("res_user")
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
+
     const history = useHistory();
+    const [userAddress,setUserAddress]=useState([])
     const [address,setAddress] = useState({
         'country':'',
         'fullName':'',
@@ -43,11 +47,11 @@ const addAddress = (event) =>{
         loopContinue_one = false;
       }
   })
-  console.log(`object`, error)
+//   console.log(`object`, error)
   if(error==false){
     let formData = new FormData();
     formData.append('request', 'insertAddressFromApp')
-    formData.append('userId', id.id)
+    formData.append('userId', id.id!=undefined ? id.id:'0')
     formData.append('country', address.country)
     formData.append('fullName', address.fullName)
     formData.append('email', address.email)
@@ -67,9 +71,9 @@ const addAddress = (event) =>{
     .then(function (response) {
         console.log(`object`, response.data)
         if(response.data.status=='success'){
-            history.push("/buy");
+            history.push(`/buy/${response.data.data}`);
         }else{
-            //toast.warning("Some thing error",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            toast.warning("Some thing error",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }
 
     })
@@ -79,6 +83,31 @@ const addAddress = (event) =>{
     });
 }
 }
+
+useEffect(() => {
+    if(id.id!=undefined){
+        let formData = new FormData();
+        formData.append('request', 'getAddressFromApp')
+        formData.append('id', id.id);
+        Axios({
+            method: 'post',
+            url: config.HOST_NAME,
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
+            console.log(`object`, response)
+            if(response.data.status=='success'){
+                setUserAddress(response.data.data)
+            }else{
+                //toast.warning("Something Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            }
+        })
+        .catch(function (response) {
+           toast.warning("Servessr Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+        });
+        }
+}, [])
 
     return (
         <div class="content-body">
@@ -104,7 +133,36 @@ const addAddress = (event) =>{
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xl-12">
+
+                    {id.id!=undefined && userAddress !=''&&
+                        <div class="card">
+            <div class="card-body">
+            <div class="row mb-5">
+               { userAddress.map((item) => (
+                    <div class="mt-4 col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                        <h6>Address:</h6>
+                        <div> <strong>{item.fullName},</strong> </div>
+                        <div>{item.homeNo}, {item.street},</div>
+                        <div>{item.city},</div>
+                        <div>{item.state},</div>
+                        <div>{item.country}</div>
+                        <div>Email: {item.email},</div>
+                        <div>Phone: +{item.mobNo}.</div>
+                        <Link class="btn btn-primary btn-sm btn-block" to = {`/buy/${item.id}`}>Deliver to this address</Link>
+                    </div>
+                   ))
+                    }
+                    </div>
+                    </div>
+                    </div>
+                }
+
+                </div>
+            </div>
 			<div class="row">
+
             <div class="col-xl-12">
                         <div class="card">
                             <div class="card-body">
@@ -193,7 +251,7 @@ const addAddress = (event) =>{
                                     </div>
                                     <hr class="mb-4"/>
 <button class="btn btn-primary btn-lg btn-block" type="button" onClick={(e)=>addAddress(e)}>Deliver to this address</button>
-<Link to="/buy"  class="btn btn-primary btn-lg btn-block" ><a>Checkout</a></Link>
+{id.id==undefined && <Link to="/register"  class="btn btn-primary btn-lg btn-block" ><a>Register and Checkout</a></Link>}
 
                                     </form>
                                     </div>

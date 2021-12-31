@@ -6,11 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { config } from '../../../common/utils/config';
 import { useGetAllProductsQuery, useGetAllRestaurantQuery } from '../feature/productsApi';
 toast.configure();
-const Home = () => {
-	const [state, setstate] = useState([])
-	//const { data, error, isLoading } = useGetAllProductsQuery({'request':'getAllItems'});
-	const { data, error, isLoading } = useGetAllRestaurantQuery({'request':'getAllRes'});
-	console.log(`object`, data)
+const ResItem = ({match}) => {
+    var id = match.params.id ? match.params.id : ''
+    const [state, setstate] = useState([])
+
+	const { data, error, isLoading } = useGetAllProductsQuery({'request':'getAllItems',id:id});
+	console.log(`objessssct`, data)
     return (
         <div class="content-body">
         <div class="container-fluid">
@@ -37,7 +38,7 @@ const Home = () => {
             </div>
 			<div class="row">
 
-			{/* {data && data.data.map(item=>	<div key={item.id} class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
+			{data && data.data.map(item=>	<div key={item.id} class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
                                 <div class="new-arrival-product">
@@ -61,23 +62,9 @@ const Home = () => {
                             </div>
                         </div>
 						</div>)
-			} */}
-
-			{data && data.data.map(item=>	<div key={item.id} class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="new-arrival-product">
-                                    <div class="new-arrivals-img-contnent">
-                                       <Link to={`/restaurant/${item.username}`}>
-									   <h4>{item.username}</h4>
-									   </Link>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-						</div>)
 			}
+
+
 			</div>
             <div class="row">
 					<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
@@ -262,4 +249,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default ResItem;

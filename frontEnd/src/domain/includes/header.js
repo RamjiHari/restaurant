@@ -5,10 +5,12 @@ import { useSelector } from "react-redux";
 const Header = () =>  {
     const history = useHistory();
     const loginContext = useContext(LoginContext);
+
+    const username=loginContext.userData==undefined ?'':loginContext.userData.username
+    console.log(`usernameusername`, username)
     const name = localStorage.getItem("res_user")
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
-
 
     const { cartTotalQuantity } = useSelector((state) => state.cart);
     const logout = () =>{
@@ -143,10 +145,10 @@ const Header = () =>  {
                                 <a className="all-notification" href="#">See all notifications <i className="ti-arrow-right"></i></a>
                             </div>*/}
                         </li>
-                        <li className="nav-item dropdown header-profile">
+                        {username!=undefined ? <li className="nav-item dropdown header-profile">
                             <a className="nav-link" href="#" role="button" data-toggle="dropdown">
                                 <div className="header-info">
-                                    <span>Hello, <strong>{name.username}</strong></span>
+                                    <span>Hello, <strong>{username}</strong></span>
                                 </div>
                                 <img src="images/profile/pic1.jpg" width="20" alt=""/>
                             </a>
@@ -164,7 +166,16 @@ const Header = () =>  {
                                     <span className="ml-2">Logout </span>
                                 </Link>
                             </div>
-                        </li>
+                        </li>:
+                        <li className="nav-item dropdown header-profile">
+                            <Link to='/login' className="nav-link" href="#" role="button" data-toggle="dropdown">
+                                <div className="header-info">
+                                    <span>Login</span>
+                                </div>
+                                <img src="images/profile/pic1.jpg" width="20" alt=""/>
+                            </Link>
+                            </li>
+                        }
                     </ul>
                 </div>
             </nav>

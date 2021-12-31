@@ -209,6 +209,7 @@ if(@$_REQUEST['request'] == "insertAddressFromApp")
     }
     $response = [
       "status" => $status,
+      "data"=>   $userData
     ];
 
    echo json_encode($response);
@@ -254,4 +255,25 @@ if(@$_REQUEST['request'] == "getOrdersFromApp")
    echo json_encode($response);
 
 }
+
+if(@$_REQUEST['request'] == "getAddressFromApp")
+{
+// print_r($_REQUEST['orderjson']);
+
+    $userData = $obj_Items->getAddressFromApp($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+      "data" =>   $userData
+    ];
+
+   echo json_encode($response);
+
+}
+
 ?>

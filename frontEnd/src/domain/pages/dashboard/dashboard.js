@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import {BrowserRouter,BrowserRouter as Router,Switch,Route} from  'react-router-dom';
+import {BrowserRouter,BrowserRouter as Router,Switch,Route } from  'react-router-dom';
 import Main from '../../includes/main';
 import Login from '../login/login';
 import Register from '../register/register';
@@ -23,26 +23,29 @@ import Deliver from '../checkout/deliver';
 import OrderItem from '../item/OrderItem';
 import ListRestaurant from '../Restaurant/list';
 import Restaurant from '../Restaurant/restaurant';
+import ResItem from '../Restaurant/resItem';
 
 function Dashboard() {
-  const [login, setlogin] = useState(false)
-
-  const [logged,setLogged] = useState(localStorage.getItem("res_user")
-  ? true
-  : false);
+  const [logged,setLogged] = useState(false);
   const [userData,setUserData]= useState("");
-console.log(`logged`, logged)
+
   const loggedSettings={
     isLogged:logged,
     userData:userData,
     setLogged,
     setUserData,
   };
-
+console.log(`object`, logged)
   useEffect(() => {
-    setUserData(localStorage.getItem('res_user'))
-  }, [])
-
+    if(localStorage.getItem('res_user')!=undefined){
+    setUserData(JSON.parse(localStorage.getItem('res_user')))
+    setLogged(true)
+    }else{
+      setUserData('')
+      setLogged(false)
+    }
+  }, [localStorage])
+console.log(`loggedSettings`, loggedSettings)
   return (
  <Router>
 
@@ -51,7 +54,6 @@ console.log(`logged`, logged)
           <>
           <ToastContainer />
             <NavHeader/>
-            <Footer/>
             <ChatBox/>
             <Header/>
             <Sidebar/>
@@ -63,22 +65,34 @@ console.log(`logged`, logged)
             <Route exact path='/edititem/:id' component={AddItem} />
             <Route exact path='/cart' component={Cart} />
             <Route exact path='/checkout' component={Checkout} />
-            <Route exact path='/buy' component={Deliver} />
+            <Route exact path='/buy/:id' component={Deliver} />
             <Route exact path='/orders' component={OrderItem} />
             <Route exact path='/addRestaurant' component={Restaurant} />
             <Route exact path='/restaurant' component={ListRestaurant} />
             <Route exact path='/editRestaurant/:id' component={Restaurant} />
+            <Route exact path='/restaurant/:id' component={ResItem} />
 
             <Footer/>
             </>:
 
 
-       <Switch>
-            <Route exact path='/' component={Login} />
-            <Route path="/login" component={Login} />
-            <Route path="/superadmin" component={Login} />
+       <>
+       <ToastContainer />
+            <NavHeader/>
+            <ChatBox/>
+            <Header/>
+            <Sidebar/>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/items/:id' component={ItemDetails} />
+            <Route exact path='/cart' component={Cart} />
+            <Route exact path='/checkout' component={Checkout} />
+            <Route exact path='/buy/:id' component={Deliver} />
+            <Route exact path="/login" component={Login} />
+            <Route  exact path="/superadmin" component={Login} />
             <Route exact path='/register' component={Register} />
-          </Switch>
+            <Route exact path='/restaurant/:id' component={ResItem} />
+            <Footer/>
+          </>
      }
 
      </LoginContext.Provider></Router>

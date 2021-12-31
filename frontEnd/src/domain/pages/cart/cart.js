@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useContext} from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,8 +9,11 @@ import {
     removeFromCart,
   } from "../feature/cartSlice.js";
 import { config } from '../../../common/utils/config.js';
+import LoginContext from '../context/LoginContext.js';
 const Cart = () => {
     const cart = useSelector((state) => state.cart);
+    const loginContext = useContext(LoginContext);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getTotals());
@@ -123,7 +126,8 @@ const Cart = () => {
                 <span className="amount">${cart.cartTotalAmount}</span>
               </div>
               <p>Taxes and shipping calculated at checkout</p>
-              <Link to='/checkout'><button>Check out</button></Link>
+            <Link to='/checkout'><button>Check out</button></Link>
+
               <div className="continue-shopping">
                 <Link to="/">
                   <svg

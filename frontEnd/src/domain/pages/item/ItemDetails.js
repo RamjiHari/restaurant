@@ -14,7 +14,7 @@ const ItemDetails = ({match}) => {
     var edit_id = match.params.id ? match.params.id : ''
     const [loading, setLoading] = useState( false )
     const loginContext = useContext(LoginContext);
-    const id = loginContext.userData.id;
+    const id = loginContext.userData==undefined?'': loginContext.userData.id;
     const { data, error, isLoading } = useGetAllProductsQuery({'request':'getItem','editId':edit_id});
     console.log(`datadatadataddddddatadata`, data)
     const [state, setstate] = useState({
