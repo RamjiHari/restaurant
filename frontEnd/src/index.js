@@ -7,12 +7,14 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import productsReducer, { productsFetch } from './domain/pages/feature/productSlice'
 import cartReducer from './domain/pages/feature/cartSlice'
+import favItemReducer from './domain/pages/feature/itemSlice'
 import  { productsApi ,restaurantApi} from './domain/pages/feature/productsApi'
 const store = configureStore({
 
   reducer: {
     products:productsReducer,
     cart: cartReducer,
+    favItem:favItemReducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [restaurantApi.reducerPath]: restaurantApi.reducer,
   },
