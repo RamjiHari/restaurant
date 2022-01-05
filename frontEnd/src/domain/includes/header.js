@@ -1,11 +1,12 @@
 import React ,{useContext,useEffect}from 'react';
 import { Link , useHistory } from 'react-router-dom';
 import LoginContext from '../pages/context/LoginContext';
-import { useSelector } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
+import { addToFav } from '../pages/feature/itemSlice';
 const Header = () =>  {
     const history = useHistory();
     const loginContext = useContext(LoginContext);
-
+	const dispatch = useDispatch();
     const username=loginContext.userData==undefined ?'':loginContext.userData.username
     console.log(`usernameusername`, username)
     const name = localStorage.getItem("res_user")
@@ -13,10 +14,13 @@ const Header = () =>  {
     : '';
 
     const { cartTotalQuantity } = useSelector((state) => state.cart);
+    const favItems =useSelector((state) => []);
     const logout = () =>{
         loginContext.setLogged(false)
         loginContext.setUserData('')
         localStorage.removeItem('res_user')
+        localStorage.removeItem('favresItems')
+        dispatch(addToFav());
         history.push('/');
     }
     return (

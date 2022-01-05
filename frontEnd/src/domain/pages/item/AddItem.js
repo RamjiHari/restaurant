@@ -21,6 +21,7 @@ const AddItem = ({match}) => {
         "title":'',
         "summary":'',
         "price":0,
+        "qty":1
     })
     const history = useHistory();
     useEffect(()=>{
@@ -96,6 +97,7 @@ const AddItem = ({match}) => {
         formData.append('price', state.price);
         formData.append('summary', state.summary);
         formData.append('dateTime', dateTime);
+        formData.append('qty', state.qty);
         Axios({
             method: 'post',
             url: config.HOST_NAME,
@@ -146,7 +148,7 @@ const AddItem = ({match}) => {
 
                                         <section>
                                             <div class="row">
-                                                <div class="col-lg-4 mb-2">
+                                                <div class="col-lg-3 mb-2">
                                                     <div class="form-group">
                                                         <label class="text-label">Title*</label>
                                                         <input type="hidden" name="id" class="form-control" placeholder="Enter id" onChange={(val)=>onChange('id',val.target.value)} value={state.id}/>
@@ -155,17 +157,24 @@ const AddItem = ({match}) => {
                                                 </div>
 
 
-                                                <div class="col-lg-4 mb-2">
+                                                <div class="col-lg-3 mb-2">
                                                     <div class="form-group">
                                                         <label class="text-label">Price*</label>
                                                         <input type="number" name="price" class="form-control" placeholder="Enter Price" onChange={(val)=>onChange('price',val.target.value)} value={state.price}/>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 mb-3">
+
+                                                <div class="col-lg-3 mb-3">
                                                     <div class="form-group">
                                                         <label class="text-label">Summary*</label>
                                                         <input type="text" name="summary" class="form-control" onChange={(val)=>onChange('summary',val.target.value)} value={state.summary}/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 mb-2">
+                                                    <div class="form-group">
+                                                        <label class="text-label">Max Quantity*</label>
+                                                        <input type="number" name="qty" class="form-control" placeholder="Enter Quantity" onChange={(val)=>onChange('qty',val.target.value)} value={state.qty}/>
                                                     </div>
                                                 </div>
 
@@ -183,6 +192,7 @@ const AddItem = ({match}) => {
                                            <div class="col-lg-6 mb-2">
                                                 <img class="w-90 imgRoundcorner" id="file-ip-1-preview" width="100" height="100" />
                                             </div>
+
 
                                             </div>
                                             <button type="button" class="btn btn-primary mt-3" onClick={()=>saveItemHandler()}>Submit</button>

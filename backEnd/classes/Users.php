@@ -7,11 +7,17 @@ class Users  {
         $this->app_path = $app_path;
     }
 
-    public function login($uname,$password){
+ public function login($uname,$password){
         $select = mysqli_query($this->conn,"select * from `users` where (`email` = '$uname' or `username` = '$uname' ) and `password` = '$password' and `active` = 1 ") ;
+        $rows=[];
         if(mysqli_num_rows($select) > 0){
             $row_user = mysqli_fetch_assoc($select);
-            return $row_user;
+            $fav_items_select = mysqli_query($this->conn,"select * from `favItems` where `userId` = '".$row_user['id']."' ");
+            $fav_items= mysqli_fetch_assoc($fav_items_select);
+            $data=json_decode($fav_items['favJson']);
+            $rows['favItem']= $data;
+            $rows['row_user']= $row_user;
+            return $rows;
         }else{
             return false;
         }

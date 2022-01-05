@@ -13,11 +13,50 @@ const ResItem = ({match}) => {
 	const dispatch = useDispatch();
     var id = match.params.id ? match.params.id : ''
     const [state, setstate] = useState([])
-
+	const userId = localStorage.getItem("res_user")
+    ? JSON.parse(localStorage.getItem("res_user"))
+    : '';
 	const { data, error, isLoading } = useGetAllProductsQuery({'request':'getAllItems',id:id});
 	const addItemToFav = (id) =>{
 		dispatch(addToFav(id));
+		const ids= setInterval(() => {
+			   if(userId!=''){
+		let formData = new FormData();
+        formData.append('request', 'addtoFav')
+		formData.append('userId', userId.id)
+        formData.append('favItems', localStorage.getItem("favresItems"))
+        Axios({
+            method: 'post',
+            url:config.HOST_NAME,
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
+
+            if(response.data.status=='success'){
+
+            }else{
+
+            }
+
+        })
+        .catch(function (response) {
+            toast.warning("Server Prosssblem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            console.log(response)
+        });
+	   }
+		// console.log(`JSON.parse(localStorage.getItem("res_user"))`, )
+		clearInterval(ids);
+		}, 3000)
+
 	}
+
+	// useEffect(() => {
+
+	// 	const a=JSON.parse(localStorage.getItem("favresItems"))
+	// 	dispatch(addToFav(a))
+
+	// }, [])
 
 
 	const findIndexVal=(id)=>{
@@ -74,9 +113,10 @@ const ResItem = ({match}) => {
                                         </ul>
                                         <span class="price">${item.price}
 
-												{ localStorage.getItem("favresItems") !=undefined ? findIndexVal(item.id)
+												{ userId!='' ?localStorage.getItem("favresItems") !=undefined ? findIndexVal(item.id)
 												:
-												<i onClick={()=>addItemToFav(item.id)} class="fa fa-heart-o"></i>
+												<i onClick={()=>addItemToFav(item.id)} class="fa fa-heart-o"></i>:
+												<Link to={`/login`}><i  class="fa fa-heart-o"></i></Link>
 												}
 
 										</span>

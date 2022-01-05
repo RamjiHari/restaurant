@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Axios from 'axios';
 import LoginContext from '../context/LoginContext';
+import { useDispatch, useSelector } from "react-redux";
+import { addToFav } from '../feature/itemSlice';
 
 toast.configure()
 const Login = () => {
@@ -17,7 +19,7 @@ const Login = () => {
     })
     const [loading, setLoading] = useState( false )
     const loginContext = useContext(LoginContext);
-
+    const dispatch = useDispatch();
     const onChange=(key,val)=>{
         let updated = {
             ...state,
@@ -43,10 +45,15 @@ const Login = () => {
 
             if(response.data.status=='success'){
                 console.log(`responseresponse`, response.data)
-                console.log(response.data.data,",response.data.data");
+                console.log(response.data.data.row_user,",response.data.data");
                 loginContext.setLogged(true)
-                loginContext.setUserData(response.data.data)
-                localStorage.setItem('res_user',JSON.stringify(response.data.data));
+                loginContext.setUserData(response.data.data.row_user)
+                localStorage.setItem('res_user',JSON.stringify(response.data.data.row_user));
+                if(response.data.data.favItem!=null){
+                localStorage.setItem('favresItems',JSON.stringify(response.data.data.favItem));
+
+                // dispatch(addToFav(response.data.data.favItem));
+                }
                 history.push('/')
             }else{
                 toast.warning("UserName or Password Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})

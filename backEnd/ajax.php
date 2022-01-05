@@ -276,4 +276,24 @@ if(@$_REQUEST['request'] == "getAddressFromApp")
 
 }
 
+if(@$_REQUEST['request'] == "addtoFav")
+{
+// print_r($_REQUEST['orderjson']);
+
+    $userData = $obj_Items->insertfavItem($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+      "_REQUEST"=>$_REQUEST['orderjson']
+    ];
+
+   echo json_encode($response);
+
+}
+
 ?>

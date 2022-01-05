@@ -10,6 +10,7 @@ import {
   } from "../feature/cartSlice.js";
 import { config } from '../../../common/utils/config.js';
 import LoginContext from '../context/LoginContext.js';
+import { toast } from 'react-toastify';
 const Cart = () => {
     const cart = useSelector((state) => state.cart);
     const loginContext = useContext(LoginContext);
@@ -20,7 +21,17 @@ const Cart = () => {
       }, [cart, dispatch]);
 
       const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
+
+        const itemIndex = cart.cartItems.findIndex(
+          (item) => item.id === product.id
+        );
+          if(cart.cartItems[itemIndex].cartQuantity<Number(cart.cartItems[itemIndex].max_qty)){
+            dispatch(addToCart(product));
+          }else{
+            toast.info("You can't select upto maximum quantity", {
+                  position: "bottom-left",
+                });
+          }
       };
       const handleDecreaseCart = (product) => {
         dispatch(decreaseCart(product));

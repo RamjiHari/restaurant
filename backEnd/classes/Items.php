@@ -20,10 +20,10 @@ class Items  {
     public function insertItems($data,$image){
   
       if($data['id']==''){
-        $insertItem = mysqli_query($this->conn,"INSERT INTO `item` (`userId`,  `title`, `image`, `summary`, `price`, `createdAt`, `updatedAt`) VALUES (".$data['userId'].", '".$data['title']."', '".$image."', '".$data['summary']."', ".$data['price'].",'".$data['datetime']."', NULL)") or die(mysqli_error());
+        $insertItem = mysqli_query($this->conn,"INSERT INTO `item` (`userId`,  `title`, `image`, `summary`, `price`,`max_qty`, `createdAt`, `updatedAt`) VALUES (".$data['userId'].", '".$data['title']."', '".$image."', '".$data['summary']."', ".$data['price'].",".$data['qty'].",'".$data['datetime']."', NULL)") or die(mysqli_error());
     }else{
        
-        $insertItem=mysqli_query($this->conn,"UPDATE `item` SET `userId` = '".$data['userId']."' , `title` = '".$data['title']."', `image` = '".$image."', `summary` = '".$data['summary']."',  `price` = '".$data['price']."', `updatedAt` = '".$data['dateTime']."' WHERE `item`.`id` = '".$data['id']."'") or die(mysqli_error());
+        $insertItem=mysqli_query($this->conn,"UPDATE `item` SET `userId` = '".$data['userId']."' , `title` = '".$data['title']."', `image` = '".$image."', `summary` = '".$data['summary']."', `max_qty` = '".$data['qty']."',  `price` = '".$data['price']."', `updatedAt` = '".$data['dateTime']."' WHERE `item`.`id` = '".$data['id']."'") or die(mysqli_error());
     }
 
         if($insertItem){
@@ -41,7 +41,7 @@ class Items  {
 
      public function deleteItem($data) {
         $select = mysqli_query($this->conn,"DELETE FROM `item` WHERE `id` = ".$data['id']."");
-        $getItem = mysqli_query($this->conn,"SELECT * FROM `item` ORDER BY `id` DESC  ");
+        $getItem = mysqli_query($this->conn,"SELECT * FROM `item` WHERE id='".$data['editId']."' ORDER BY `id` DESC  ");
         return mysqli_fetch_all($getItem,MYSQLI_ASSOC);
     }
 
@@ -64,6 +64,26 @@ class Items  {
         $inserAdd = mysqli_query($this->conn,"INSERT INTO `orders` ( `userId`, `addId`, `orderjson`, `totAmt`, `totQua`, `payMode`, `status`) VALUES (".$data['userId'].", ".$data['addId'].", ".$json_enc.", ".$data['totAmt'].", ".$data['totQua'].", '".$data['payMode']."', 0)") or die(mysqli_error());
 
    
+        if($inserAdd){
+            return true;
+      }else{
+            return false;
+      }
+       
+
+    }
+
+     public function insertfavItem($data){
+      $json_enc=json_encode($data['favItems']);
+ $select = mysqli_query($this->conn,"SELECT * from `favItems` WHERE `userId` = ".$data['userId']."");
+ if(mysqli_num_rows($select)== 0){
+        $inserAdd = mysqli_query($this->conn,"INSERT INTO `favItems` ( `userId`, `favJson`) VALUES (".$data['userId'].",".$json_enc.")") or die(mysqli_error());
+
+   }else{
+  echo
+    $inserAdd = mysqli_query($this->conn," UPDATE `favItems` SET `favJson` = ".$json_enc." WHERE `favItems`.`userId` = ".$data['userId']."") or die(mysqli_error());
+
+   }
         if($inserAdd){
             return true;
       }else{
