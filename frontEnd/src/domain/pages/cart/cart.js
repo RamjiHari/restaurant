@@ -13,6 +13,7 @@ import LoginContext from '../context/LoginContext.js';
 import { toast } from 'react-toastify';
 const Cart = () => {
     const cart = useSelector((state) => state.cart);
+    const max_cart=Number(localStorage.getItem('max_order'))
     const loginContext = useContext(LoginContext);
 
     const dispatch = useDispatch();
@@ -21,17 +22,17 @@ const Cart = () => {
       }, [cart, dispatch]);
 
       const handleAddToCart = (product) => {
-
         const itemIndex = cart.cartItems.findIndex(
           (item) => item.id === product.id
         );
           if(cart.cartItems[itemIndex].cartQuantity<Number(cart.cartItems[itemIndex].max_qty)){
             dispatch(addToCart(product));
           }else{
-            toast.info("You can't select upto maximum quantity", {
-                  position: "bottom-left",
-                });
+            toast.info(`You can't select upto maximum quantity ${cart.cartItems[itemIndex].cartQuantity}`, {
+              position: "bottom-left",
+            });
           }
+
       };
       const handleDecreaseCart = (product) => {
         dispatch(decreaseCart(product));

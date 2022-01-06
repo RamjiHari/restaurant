@@ -8,9 +8,18 @@ class Restaurant  {
     }
 
     public function getAllRes(){
-
+$rows=[];
          $select = mysqli_query($this->conn,"SELECT * FROM `restaurant` as res LEFT JOIN `users` as us ON res.resId=us.id");
-         return mysqli_fetch_all($select,MYSQLI_ASSOC);
+            $max_order_select = mysqli_query($this->conn,"SELECT * FROM `max_order`");
+             if(mysqli_num_rows($max_order_select) > 0){
+            $max_order = mysqli_fetch_assoc($max_order_select);
+             $rows['max_order']= $max_order['maxOrder'];
+                  }else{
+         $rows['max_order']= 1;
+                  }
+
+        $rows['all_res'] =mysqli_fetch_all($select,MYSQLI_ASSOC);
+        return $rows;
     }
     public function insertRestaurant($data){
 

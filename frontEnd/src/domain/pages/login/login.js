@@ -49,6 +49,7 @@ const Login = () => {
                 loginContext.setLogged(true)
                 loginContext.setUserData(response.data.data.row_user)
                 localStorage.setItem('res_user',JSON.stringify(response.data.data.row_user));
+                localStorage.setItem('max_order',JSON.stringify(response.data.data.max_order));
                 if(response.data.data.favItem!=null){
                 localStorage.setItem('favresItems',JSON.stringify(response.data.data.favItem));
 

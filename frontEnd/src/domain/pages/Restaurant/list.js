@@ -21,7 +21,7 @@ const ListRestaurant = () => {
 
             if(response.data.status=='success'){
 
-                setstate(response.data.data)
+                setstate(response.data.data.all_res)
             }else{
                 //toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             }

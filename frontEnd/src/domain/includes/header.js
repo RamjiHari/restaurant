@@ -20,6 +20,7 @@ const Header = () =>  {
         loginContext.setUserData('')
         localStorage.removeItem('res_user')
         localStorage.removeItem('favresItems')
+        localStorage.removeItem('max_order')
         dispatch(addToFav());
         history.push('/');
     }

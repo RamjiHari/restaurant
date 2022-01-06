@@ -296,4 +296,43 @@ if(@$_REQUEST['request'] == "addtoFav")
 
 }
 
+if(@$_REQUEST['request'] == "getMaxOrderItem")
+{
+
+
+    $userData = $obj_Items->getMaxOrderItem($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+      "data" =>   $userData
+    ];
+
+   echo json_encode($response);
+
+}
+
+if(@$_REQUEST['request'] == "insertMaxOrder")
+{
+
+
+    $userData = $obj_Items->insertMaxOrder($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+    ];
+
+   echo json_encode($response);
+
+}
+
 ?>

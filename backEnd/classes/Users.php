@@ -15,7 +15,15 @@ class Users  {
             $fav_items_select = mysqli_query($this->conn,"select * from `favItems` where `userId` = '".$row_user['id']."' ");
             $fav_items= mysqli_fetch_assoc($fav_items_select);
             $data=json_decode($fav_items['favJson']);
+            $max_order_select = mysqli_query($this->conn,"SELECT * FROM `max_order`");
+             if(mysqli_num_rows($max_order_select) > 0){
+            $max_order = mysqli_fetch_assoc($max_order_select);
+             $rows['max_order']= $max_order['maxOrder'];
+          }else{
+ $rows['max_order']= 1;
+          }
             $rows['favItem']= $data;
+           
             $rows['row_user']= $row_user;
             return $rows;
         }else{

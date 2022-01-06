@@ -24,6 +24,7 @@ import OrderItem from '../item/OrderItem';
 import ListRestaurant from '../Restaurant/list';
 import Restaurant from '../Restaurant/restaurant';
 import ResItem from '../Restaurant/resItem';
+import MaxOrder from '../item/maxOrder';
 
 function Dashboard() {
   const [logged,setLogged] = useState(false);
@@ -71,6 +72,7 @@ console.log(`loggedSettings`, loggedSettings)
             <Route exact path='/restaurant' component={ListRestaurant} />
             <Route exact path='/editRestaurant/:id' component={Restaurant} />
             <Route exact path='/restaurant/:id' component={ResItem} />
+            <Route exact path='/setting/maxOrder' component={MaxOrder} />
 
             <Footer/>
             </>:

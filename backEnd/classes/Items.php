@@ -123,6 +123,32 @@ class Items  {
          $select = mysqli_query($this->conn,"SELECT * FROM `address` WHERE userId='".$data['id']."'");
          return mysqli_fetch_all($select,MYSQLI_ASSOC);
     }
-}
 
+
+    public function getMaxOrderItem($data){
+         $select = mysqli_query($this->conn,"SELECT * FROM `max_order` WHERE userId='".$data['userId']."'");
+         return mysqli_fetch_assoc($select);
+    }
+
+
+     public function insertMaxOrder($data){
+
+ $select = mysqli_query($this->conn,"SELECT * from `max_order` ");
+ if(mysqli_num_rows($select)== 0){
+        $inserAdd = mysqli_query($this->conn,"INSERT INTO `max_order` ( `userId`, `maxOrder`) VALUES (".$data['userId'].",".$data['maxOrder'].")") or die(mysqli_error());
+
+   }else{
+    $inserAdd = mysqli_query($this->conn,"UPDATE `max_order` SET `maxOrder` = ".$data['maxOrder']." , userId=".$data['userId']."  
+      WHERE `max_order`.`userId` = ".$data['userId']."") or die(mysqli_error());
+
+   }
+        if($inserAdd){
+            return true;
+      }else{
+            return false;
+      }
+       
+
+    }
+  }
     ?>

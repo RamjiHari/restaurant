@@ -27,6 +27,8 @@ const ItemDetails = ({match}) => {
     })
     const history = useHistory();
     const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart);
+    const max_cart=Number(localStorage.getItem('max_order'))
     useEffect(()=>{
 
         if(edit_id!=''){
@@ -60,8 +62,28 @@ const ItemDetails = ({match}) => {
     },[edit_id])
 
  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
-    history.push("/cart");
+if(cart.cartItems.length<max_cart){
+    const itemIndex = cart.cartItems.findIndex(
+        (item) => item.id === product.id
+      );
+      if(itemIndex>=0){
+        if(cart.cartItems[itemIndex].cartQuantity<Number(cart.cartItems[itemIndex].max_qty)){
+            dispatch(addToCart(product));
+            history.push("/cart");
+          }else{
+            toast.info(`You can't select upto maximum quantity${cart.cartItems[itemIndex].cartQuantity}`, {
+                position: "bottom-left",
+              });
+          }
+      }else{
+        dispatch(addToCart(product));
+        history.push("/cart");
+      }
+}else{
+    toast.info(`You can't order upto maximum ${max_cart}`, {
+                    position: "bottom-left",
+                  });
+}
   };
     return (
         <div class="content-body">

@@ -10,6 +10,7 @@ const Home = () => {
 	const [state, setstate] = useState([])
 	//const { data, error, isLoading } = useGetAllProductsQuery({'request':'getAllItems'});
 	const { data, error, isLoading } = useGetAllRestaurantQuery({'request':'getAllRes'});
+	data && localStorage.setItem('max_order',data.data.max_order);
 	console.log(`object`, data)
     return (
         <div class="content-body">
@@ -63,7 +64,7 @@ const Home = () => {
 						</div>)
 			} */}
 
-			{data && data.data.map(item=>	<div key={item.id} class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
+			{data && data.data.all_res.map(item=>	<div key={item.id} class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
                         <div class="card">
                             <div class="card-body">
                                 <div class="new-arrival-product">
