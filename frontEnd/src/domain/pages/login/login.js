@@ -55,7 +55,12 @@ const Login = () => {
 
                 // dispatch(addToFav(response.data.data.favItem));
                 }
-                history.push('/')
+                if(localStorage.getItem('last_res')==undefined){
+                    history.push('/')
+                }else{
+                    history.push(`/restaurant/${localStorage.getItem("last_res")}`)
+                }
+
             }else{
                 toast.warning("UserName or Password Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
                 localStorage.removeItem('res_user');

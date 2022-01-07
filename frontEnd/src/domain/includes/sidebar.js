@@ -1,15 +1,14 @@
-import React ,{useContext}from 'react';
+import React ,{useContext,useEffect, useState}from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import LoginContext from '../pages/context/LoginContext';
 const Sidebar = () => {
     const loginContext = useContext(LoginContext);
+
     const privilege=loginContext.userData ==undefined ?'':loginContext.userData.privilege
     const id = localStorage.getItem("res_user")
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
-
-
     return (
         <div className="deznav">
         <div className="deznav-scroll">

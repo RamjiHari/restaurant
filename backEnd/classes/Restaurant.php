@@ -7,9 +7,20 @@ class Restaurant  {
         $this->app_path = $app_path;
     }
 
-    public function getAllRes(){
+    public function getAllRes($data){
+      $userId=$data['userId'];
+      $privilege=$data['privilege'];
+
+
 $rows=[];
+if($userId=='' && $privilege==''){
          $select = mysqli_query($this->conn,"SELECT * FROM `restaurant` as res LEFT JOIN `users` as us ON res.resId=us.id");
+       }elseif($userId!='' && $privilege!='4'){
+        $select = mysqli_query($this->conn,"SELECT * FROM `restaurant` as res LEFT JOIN `users` as us ON res.resId=us.id");
+       }else{
+        
+         $select = mysqli_query($this->conn,"SELECT * FROM `restaurant` as res LEFT JOIN `users` as us ON res.resId=us.id where res.resId='".$userId."'");
+       }
             $max_order_select = mysqli_query($this->conn,"SELECT * FROM `max_order`");
              if(mysqli_num_rows($max_order_select) > 0){
             $max_order = mysqli_fetch_assoc($max_order_select);
