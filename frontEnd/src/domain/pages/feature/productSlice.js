@@ -5,6 +5,7 @@ import { config } from "../../../common/utils/config";
 const initialState = {
   items: [],
   status: null,
+  name:''
 };
 
 export const productsFetch = createAsyncThunk(
@@ -34,7 +35,7 @@ const productsSlice = createSlice({
         state.status = "pending";
       },
       [productsFetch.fulfilled]: (state, action) => {
-        state.items = action.payload;
+        state.name = action.payload;
         state.status = "success";
       },
       [productsFetch.rejected]: (state, action) => {
@@ -42,5 +43,6 @@ const productsSlice = createSlice({
       },
     },
   });
+
 
   export default productsSlice.reducer;

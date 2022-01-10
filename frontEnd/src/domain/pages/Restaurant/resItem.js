@@ -7,9 +7,13 @@ import { config } from '../../../common/utils/config';
 import { addToFav } from '../feature/itemSlice';
 import { useGetAllProductsQuery, useGetAllRestaurantQuery } from '../feature/productsApi';
 import { useDispatch, useSelector } from "react-redux";
+import { addResName } from '../feature/restaurantSlice';
+
 toast.configure();
+
 const ResItem = ({match}) => {
-	const favItems =useSelector((state) => state.favItem);
+    const favItems =useSelector((state) => state.favItem);
+    const restaurant = useSelector((state) => state.restaurant);
 	const dispatch = useDispatch();
     var id = match.params.id ? match.params.id : ''
     localStorage.setItem('last_res',id)
@@ -18,7 +22,9 @@ const ResItem = ({match}) => {
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
     const { data, error, isLoading } = useGetAllProductsQuery({'request':'getAllItems',id:id});
-
+    useEffect(() => {
+       dispatch(addResName(id))
+      }, []);
 	const addItemToFav = (id) =>{
 		dispatch(addToFav(id));
 		const ids= setInterval(() => {
