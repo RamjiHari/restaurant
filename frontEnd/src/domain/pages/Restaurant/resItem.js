@@ -1,10 +1,10 @@
 import Axios from 'axios';
 import React,{useState,useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { config } from '../../../common/utils/config';
-import { addToFav } from '../feature/itemSlice';
+import { addToFav, removeFavItems, setFavItems } from '../feature/itemSlice';
 import { useGetAllProductsQuery, useGetAllRestaurantQuery } from '../feature/productsApi';
 import { useDispatch, useSelector } from "react-redux";
 import { addResName } from '../feature/restaurantSlice';
@@ -22,8 +22,12 @@ const ResItem = ({match}) => {
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
     const { data, error, isLoading } = useGetAllProductsQuery({'request':'getAllItems',id:id});
+    const history = useHistory();
     useEffect(() => {
        dispatch(addResName(id))
+      if(favItems.setFavItems!=''){
+        addItemToFav(favItems.setFavItems)
+      }
       }, []);
 	const addItemToFav = (id) =>{
 		dispatch(addToFav(id));
@@ -40,7 +44,7 @@ const ResItem = ({match}) => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-
+            dispatch(removeFavItems())
             if(response.data.status=='success'){
 
             }else{
@@ -64,7 +68,12 @@ const ResItem = ({match}) => {
 	// 	const a=JSON.parse(localStorage.getItem("favresItems"))
 	// 	dispatch(addToFav(a))
 
-	// }, [])
+    // }, [])
+
+    const setFavData =(id) =>{
+        dispatch(setFavItems(id))
+        history.push('/login')
+    }
 
 
 	const findIndexVal=(id)=>{
@@ -114,7 +123,7 @@ const ResItem = ({match}) => {
 												{ userId!='' ?localStorage.getItem("favresItems") !=undefined ? findIndexVal(item.id)
 												:
 												<i onClick={()=>addItemToFav(item.id)} class="fa fa-heart-o"></i>:
-												<Link to={`/login`}><i  class="fa fa-heart-o"></i></Link>
+												<i  class="fa fa-heart-o" onClick={()=>setFavData(item.id)}></i>
 												}
 
 										</span>

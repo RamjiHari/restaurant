@@ -9,14 +9,12 @@ const NavHeader = () => {
         <div className="nav-header">
         <Link to="/" className="brand-logo">
             <img className="logo-abbr" src="./images/logo.png" alt=""/>
-            <img className="logo-compact" src="./images/logo-text.png" alt=""/>
-            <img className="brand-title" src="./images/logo-text.png" alt=""/>
-           {/* {name==''?<> <img className="logo-compact" src="./images/logo-text.png" alt=""/>
+           {name==''?<> <img className="logo-compact" src="./images/logo-text.png" alt=""/>
             <img className="brand-title" src="./images/logo-text.png" alt=""/></>
             :<>
             <img className="logo-compact" src="./images/logo-text.png" alt=""/>
             <h1 className="brand-title">{name}</h1></>
-            } */}
+            }
         </Link>
 
         <div className="nav-control">
