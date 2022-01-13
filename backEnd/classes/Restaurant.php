@@ -33,16 +33,16 @@ if($userId=='' && $privilege==''){
         return $rows;
     }
     public function insertRestaurant($data){
-
+      $slug= str_replace(' ', '', $data['name']);
       if($data['id']==''){
-        $insertAppUser  = mysqli_query($this->conn,"INSERT INTO `users` (`username`,`password`,`email`,`privilege`) values('".$data['name']."','".$data['password']."','".$data['email']."','4')") or die(mysqli_error());
+        $insertAppUser  = mysqli_query($this->conn,"INSERT INTO `users` (`username`,`slug`,`password`,`email`,`privilege`) values('".$data['name']."','".$slug."','".$data['password']."','".$data['email']."','4')") or die(mysqli_error());
         $last_id = mysqli_insert_id($this->conn);
         if($last_id!=''){
         $insertItem = mysqli_query($this->conn,"INSERT INTO `restaurant` (`userId`,  `resId`,`createdOn`, `updatedOn`) VALUES (".$data['userId'].", '".$last_id."','".$data['dateTime']."', NULL)") or die(mysqli_error());
       }
     }else{
   
-       $insertItem=mysqli_query($this->conn,"UPDATE `users` SET `username` = '".$data['name']."' ,`email` ='".$data['email']."',  `password` = '".$data['password']."' WHERE `users`.`id` = '".$data['id']."'") or die(mysqli_error());
+       $insertItem=mysqli_query($this->conn,"UPDATE `users` SET `username` = '".$data['name']."' ,`slug` = '".$slug."' ,`email` ='".$data['email']."',  `password` = '".$data['password']."' WHERE `users`.`id` = '".$data['id']."'") or die(mysqli_error());
     }
 
         if($insertItem){

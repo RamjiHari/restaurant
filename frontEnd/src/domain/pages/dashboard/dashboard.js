@@ -53,7 +53,7 @@ console.log(`loggedSettings`, loggedSettings)
   <LoginContext.Provider value={loggedSettings}>
      {logged ?
           <>
-          <ToastContainer />
+          <ToastContainer autoClose={4000}  />
             <NavHeader/>
             <ChatBox/>
             <Header/>
@@ -79,7 +79,7 @@ console.log(`loggedSettings`, loggedSettings)
 
 
        <>
-       <ToastContainer />
+       <ToastContainer autoClose={4000} />
             <NavHeader/>
             <ChatBox/>
             <Header/>

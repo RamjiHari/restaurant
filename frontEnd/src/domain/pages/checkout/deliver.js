@@ -64,7 +64,11 @@ const checkout = (event) =>{
 
             toast.warning("Order Added Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             dispatch(clearCart())
-            history.push('/')
+            if(localStorage.getItem("last_res")==null){
+                history.push(`/`)
+            }else{
+            history.push(`/restaurant/${localStorage.getItem("last_res")}`)
+            }
         }else{
             toast.warning("Some thing error",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }

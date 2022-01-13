@@ -21,7 +21,7 @@ const Sidebar = () => {
                       {privilege=='4' &&  <li><Link to="/item">Items</Link></li>}
                       {privilege=='4' &&  <li><Link to="/additem">Add Items</Link></li>}
                       {privilege=='1'  &&   <li><Link to="/orders">Orders</Link></li>}
-                      {privilege=='1'  &&   <li><Link to="/cart">Cart</Link></li>}
+                      {privilege=='1' &&   <li><Link to="/cart">Cart</Link></li>}
                       {privilege=='3'  &&   <li><Link to="/restaurant">Restaurant</Link></li>}
                       {privilege=='3'  &&   <li><Link to="/addRestaurant">AddRestaurant</Link></li>}
 

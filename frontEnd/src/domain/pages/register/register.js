@@ -65,7 +65,7 @@ if(state.email!='' && state.password!='' && state.username!=''){
                 <div className="col-md-6">
                     <div className="authincation-content">
                         <div className="row no-gutters">
-                            <div className="col-xl-12">
+                            <div className="col-xl-12" style={{marginTop:'100px'}}>
                                 <div className="auth-form">
                                     <h4 className="text-center mb-4">Sign up your account</h4>
 

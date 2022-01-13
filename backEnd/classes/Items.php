@@ -9,7 +9,7 @@ class Items  {
 
     public function getAllItems($data){
 
-       $selectId = mysqli_query($this->conn,"select * from `users` where (`email` ='".$data['id']."'  or `username` = '".$data['id']."' )") ;
+       $selectId = mysqli_query($this->conn,"select * from `users` where (`slug` ='".$data['id']."' or `email` ='".$data['id']."'  or `username` = '".$data['id']."' )") ;
          $row_user= mysqli_fetch_assoc($selectId);
         if( $row_user!=''){
          
@@ -40,8 +40,9 @@ class Items  {
     }
 
      public function deleteItem($data) {
-        $select = mysqli_query($this->conn,"DELETE FROM `item` WHERE `id` = ".$data['id']."");
-        $getItem = mysqli_query($this->conn,"SELECT * FROM `item` WHERE id='".$data['editId']."' ORDER BY `id` DESC  ");
+         $select = mysqli_query($this->conn,"DELETE FROM `item` WHERE `id` = ".$data['id']."");
+     
+        $getItem = mysqli_query($this->conn,"SELECT * FROM `item` WHERE userId='".$data['editId']."' ORDER BY `id` DESC  ");
         return mysqli_fetch_all($getItem,MYSQLI_ASSOC);
     }
 
@@ -80,7 +81,6 @@ class Items  {
         $inserAdd = mysqli_query($this->conn,"INSERT INTO `favItems` ( `userId`, `favJson`) VALUES (".$data['userId'].",".$json_enc.")") or die(mysqli_error());
 
    }else{
-  echo
     $inserAdd = mysqli_query($this->conn," UPDATE `favItems` SET `favJson` = ".$json_enc." WHERE `favItems`.`userId` = ".$data['userId']."") or die(mysqli_error());
 
    }

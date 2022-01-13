@@ -12,6 +12,7 @@ const Checkout = () => {
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
 
+
     const history = useHistory();
     const [userAddress,setUserAddress]=useState([])
     const [address,setAddress] = useState({
@@ -39,6 +40,7 @@ const Checkout = () => {
 const addAddress = (event) =>{
     event.preventDefault();
     let error=false;let loopContinue_one = true;
+    if(id!=''){
     Object.keys(address).forEach((key,value) => {
       if(address[key]=='' && loopContinue_one){
           console.log(`address[key]`, key)
@@ -47,6 +49,7 @@ const addAddress = (event) =>{
         loopContinue_one = false;
       }
   })
+}
 //   console.log(`object`, error)
   if(error==false){
     let formData = new FormData();
@@ -185,53 +188,54 @@ useEffect(() => {
                                         <h4 class="mb-3">Billing address</h4>
                                         <form class="needs-validation" novalidate="">
                                                 <div class="row">
-                                                    <div class="col-md-12 mb-6">
+                                                    {id!='' && <div class="col-md-12 mb-6">
                                                     <label for="country">Country</label>
                                                         <select class="form-control" id="country" required=""  onChange={(e)=>onChange('country',e.target.value)}>
                                                             <option value="">Choose...</option>
                                                             <option value="United States">United States</option>
                                                         </select>
-                                                        </div>
+                                                        </div>}
                                                     <div class="col-md-12 mb-6">
                                                         <label for="fullname">Full Name</label>
                                                         <input type="text" class="form-control" id="fullname"   required="" onChange={(e)=>onChange('fullName',e.target.value)}/>
                                                     </div>
-                                                    <div class="col-md-12 mb-6">
+                                                   {id!='' && <div class="col-md-12 mb-6">
                                                     <label for="email">Email</label>
                                                     <input type="email" class="form-control" id="email" onChange={(e)=>onChange('email',e.target.value)}/>
-                                                </div>
+                                                </div>}
                                                 <div class="col-md-12 mb-6">
                                                     <label for="mobile">Mobile Number</label>
                                                     <input type="text" class="form-control" id="mobile" onChange={(e)=>onChange('mobNo',e.target.value)} />
                                                 </div>
+
                                                 <div class="col-md-12 mb-6">
-                                                    <label for="pincode">Pin Code</label>
-                                                    <input type="text" class="form-control" id="pincode" placeholder='6 digits [0-9] PIN code' onChange={(e)=>onChange('pincode',e.target.value)} />
-                                                </div>
-                                                <div class="col-md-12 mb-6">
-                                                    <label for="flat">Flat, House no., Building, Company, Apartment</label>
+                                                    <label for="flat">Address Line 1</label>
                                                     <input type="text" class="form-control" id="flat" onChange={(e)=>onChange('homeNo',e.target.value)} />
                                                 </div>
                                                 <div class="col-md-12 mb-6">
-                                                    <label for="area">Area, Colony, Street, Sector, Village</label>
+                                                    <label for="area">Address Line 2</label>
                                                     <input type="text" class="form-control" id="area" onChange={(e)=>onChange('street',e.target.value)}/>
                                                 </div>
-                                                <div class="col-md-12 mb-6">
+                                                {id!='' && <div class="col-md-12 mb-6">
                                                     <label for="landmark">Landmark</label>
                                                     <input type="text" class="form-control" id="landmark" placeholder="E.g. Near AIIMS Flyover, Behind Regal Cinema, etc." onChange={(e)=>onChange('landmark',e.target.value)}/>
-                                                </div>
-                                                <div class="col-md-12 mb-6">
+                                                </div>}
+                                                {id!='' && <div class="col-md-12 mb-6">
                                                     <label for="city">Town/City</label>
                                                     <input type="text" class="form-control" id="city" onChange={(e)=>onChange('city',e.target.value)}/>
-                                                </div>
-                                                <div class="col-md-12 mb-6">
+                                                </div>}
+                                                {id!='' && <div class="col-md-12 mb-6">
                                                                 <label for="state">State</label>
                                                                 <select class="form-control" id="state" required="" onChange={(e)=>onChange('state',e.target.value)}>
                                                                     <option value="">Choose...</option>
                                                                     <option value="California">California</option>
                                                                 </select>
 
-                                                            </div>
+                                                            </div>}
+                                                            <div class="col-md-12 mb-6">
+                                                    <label for="pincode">Pin Code</label>
+                                                    <input type="text" class="form-control" id="pincode" placeholder='6 digits [0-9] PIN code' onChange={(e)=>onChange('pincode',e.target.value)} />
+                                                </div>
                                     </div>
                                     <hr class="mb-4"/>
 <button class="btn btn-primary btn-lg btn-block" type="button" onClick={(e)=>addAddress(e)}>Deliver to this address</button>

@@ -42,7 +42,7 @@ const Home = () => {
                             <div className="card-body">
                                 <div className="new-arrival-product">
                                     <div className="new-arrivals-img-contnent">
-                                       <Link to={`/restaurant/${item.username}`}>
+                                       <Link to={`/restaurant/${item.slug}`}>
 									   <h4>{item.username}</h4>
 									   </Link>
                                     </div>

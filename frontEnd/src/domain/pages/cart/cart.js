@@ -28,7 +28,7 @@ const Cart = () => {
           if(cart.cartItems[itemIndex].cartQuantity<Number(cart.cartItems[itemIndex].max_qty)){
             dispatch(addToCart(product));
           }else{
-            toast.info(`You can't select upto maximum quantity ${cart.cartItems[itemIndex].cartQuantity}`, {
+            toast.error(`You can't select upto maximum quantity ${cart.cartItems[itemIndex].cartQuantity}`, {
               position: "bottom-left",
             });
           }
@@ -46,21 +46,16 @@ const Cart = () => {
     return (
         <div class="content-body">
         <div class="container-fluid">
-            <div class="form-head d-flex mb-3 align-items-start">
-                <div class="mr-auto d-none d-lg-block">
-                    <h2 class="text-black font-w600 mb-0">Restaurants</h2>
-                </div>
-
-
-            </div>
 			<div class="row">
-<div className="cart-container">
+<div className="col-lg-12">
       <h2>Shopping Cart</h2>
+      <div class="col-lg-12">
+
       {cart.cartItems.length === 0 ? (
         <div className="cart-empty">
           <p>Your cart is currently empty</p>
           <div className="start-shopping">
-            <Link to="/">
+            <Link to={`/restaurant/${localStorage.getItem("last_res")}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -79,75 +74,77 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <div>
-          <div className="titles">
-            <h3 className="product-title">Product</h3>
-            <h3 className="price">Price</h3>
-            <h3 className="quantity">Quantity</h3>
-            <h3 className="total">Total</h3>
-          </div>
-          <div className="cart-items">
-            {cart.cartItems &&
-              cart.cartItems.map((cartItem) => (
-                <div className="cart-item" key={cartItem.id}>
-                  <div className="cart-product">
-                  <img src={config.FILE_PATH+'/'+cartItem.image} alt={cartItem.name} />
-                    <div>
-                      <h3>{cartItem.title}</h3>
-                      <p>{cartItem.summary}</p>
-                      <button onClick={() => handleRemoveFromCart(cartItem)}>
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                  <div className="cart-product-price">${cartItem.price}</div>
-                  <div className="cart-product-quantity">
-                    <button onClick={() => handleDecreaseCart(cartItem)}>
-                      -
-                    </button>
-                    <div className="count">{cartItem.cartQuantity}</div>
-                    <button onClick={() => handleAddToCart(cartItem)}>+</button>
-                  </div>
-                  <div className="cart-product-total-price">
-                    ${cartItem.price * cartItem.cartQuantity}
-                  </div>
-                </div>
-              ))}
-          </div>
-          <div className="cart-summary">
-            <button className="clear-btn" onClick={() => handleClearCart()}>
-              Clear Cart
-            </button>
-            <div className="cart-checkout">
-              <div className="subtotal">
-                <span>Subtotal</span>
-                <span className="amount">${cart.cartTotalAmount}</span>
-              </div>
-              <p>Taxes and shipping calculated at checkout</p>
-            <Link to='/checkout'><button>Check out</button></Link>
+        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12 order-md-2 mb-4">
+                                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                            <span class="text-muted">Your cart</span>
+                                            <span class="badge badge-primary badge-pill">{cart.cartTotalQuantity}</span>
+                                        </h4>
+                                        <ul class="list-group mb-3">
+                                        {cart.cartItems &&  cart.cartItems.map((cartItem) => ( <>
+                                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                <div className=" col-md-4">
+                                                    <h6 className="my-0">{cartItem.title}</h6>
+                                                    <small className="text-muted">{cartItem.summary}</small>
+                                                </div>
+                                                <div className="col-md-4">
+                                                  <div className="input-group col-md-8">
+                                                    <div className="input-group-prepend">
+                                                        <span onClick={() => handleDecreaseCart(cartItem)} className="input-group-text">-</span>
+                                                    </div>
+                                                    <input type="text" className="form-control" value={cartItem.cartQuantity} />
 
-              <div className="continue-shopping">
-                <Link to="/">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    fill="currentColor"
-                    className="bi bi-arrow-left"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
-                    />
-                  </svg>
-                  <span>Continue Shopping</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+                                                    <div className="input-group-append">
+                                                        <span onClick={() => handleAddToCart(cartItem)} className="input-group-text">+</span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <span class="text-muted">${cartItem.price * cartItem.cartQuantity}</span>
+                                            </li></>))}
+
+
+                                        </ul>
+                                        <div className="cart-summary">
+  <button className="clear-btn" onClick={() => handleClearCart()}>
+    Clear Cart
+  </button>
+  <div className="cart-checkout">
+    <div className="subtotal">
+      <span>Subtotal</span>
+      <span className="amount">${cart.cartTotalAmount}</span>
+    </div>
+    <p>Taxes and shipping calculated at checkout</p>
+  <Link to='/checkout'><button>Check out</button></Link>
+
+    <div className="continue-shopping">
+      <Link to={`/restaurant/${localStorage.getItem("last_res")}`}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="currentColor"
+          className="bi bi-arrow-left"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fillRule="evenodd"
+            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+          />
+        </svg>
+        <span>Continue Shopping</span>
+      </Link>
+    </div>
+  </div>
+</div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+
       )}
+    </div>
     </div>
     </div>
     </div>

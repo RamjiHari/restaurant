@@ -55,7 +55,15 @@ const Login = () => {
 
                 // dispatch(addToFav(response.data.data.favItem));
                 }
-                if(localStorage.getItem('last_res')==undefined){
+
+                if(localStorage.getItem('cartItems')==undefined){
+                    history.push('/')
+                }
+                else if(JSON.parse(localStorage.getItem('cartItems')).length>0){
+                    history.push('/cart')
+
+                }
+                else if(localStorage.getItem('last_res')==undefined){
                     history.push('/')
                 }else{
                     history.push(`/restaurant/${localStorage.getItem("last_res")}`)
@@ -83,7 +91,7 @@ const Login = () => {
                 <div className="col-md-6">
                     <div className="authincation-content">
                         <div className="row no-gutters">
-                            <div className="col-xl-12">
+                            <div className="col-xl-12" style={{marginTop:'100px'}}>
                                 <div className="auth-form">
                                     <h4 className="text-center mb-4">Sign in your account</h4>
                                         <div className="form-group">

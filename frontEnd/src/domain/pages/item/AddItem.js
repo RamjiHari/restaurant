@@ -108,7 +108,7 @@ const AddItem = ({match}) => {
             console.log(`object`, response)
             if(response.data.status=='success'){
 
-                toast.warning("Item Add Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+                toast.info("Item Add Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
                 history.push('/item');
             }else{
                 toast.warning("Something Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})

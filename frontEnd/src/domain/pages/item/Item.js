@@ -26,7 +26,7 @@ const Item = () => {
 
                 setstate(response.data.data)
             }else{
-                toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+                // toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             }
 
         })
@@ -34,10 +34,11 @@ const Item = () => {
             toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         });
     }, [])
- const handleDelete = (id) => {
+ const handleDelete = (deleteid) => {
     let formData = new FormData();
     formData.append('request', 'deleteItem')
-    formData.append('id', id)
+    formData.append('id', deleteid)
+    formData.append('editId', loginContext.userData.id)
     Axios({
         method: 'post',
         url: config.HOST_NAME,
@@ -46,15 +47,16 @@ const Item = () => {
     })
     .then(function (response) {
         if(response.data.status=='success'){
-            toast.warning("Deleted Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            console.log(response,"New Response")
+            toast.info("Deleted Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             setstate(response.data.data)
         }else{
-            toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            //toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }
 
     })
     .catch(function (response) {
-        toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+       // toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
     });
  }
     return (
