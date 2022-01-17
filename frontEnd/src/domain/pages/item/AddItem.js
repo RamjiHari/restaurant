@@ -11,6 +11,7 @@ const AddItem = ({match}) => {
     var edit_id = match.params.id ? match.params.id : ''
     const [loading, setLoading] = useState( false )
     const loginContext = useContext(LoginContext);
+    const [category, setCategory] = useState([])
     const id = localStorage.getItem("res_user")
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
@@ -19,9 +20,10 @@ const AddItem = ({match}) => {
         "userId":id.id,
         'image':'',
         "title":'',
+        "category":'',
         "summary":'',
         "price":0,
-        "qty":1
+        "max_qty":1
     })
     const history = useHistory();
     useEffect(()=>{
@@ -56,7 +58,30 @@ const AddItem = ({match}) => {
         });
         }
     },[edit_id])
+    useEffect(() => {
+        let formData = new FormData();
+        formData.append('request', 'getAllCategory')
+        Axios({
+            method: 'post',
+            url: config.HOST_NAME,
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+        })
+        .then(function (response) {
 
+            if(response.data.status=='success'){
+
+                setCategory(response.data.data)
+            }else{
+                //toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            }
+
+        })
+        .catch(function (response) {
+            toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+        });
+    }, [])
+console.log(`category`, category)
     const onChange=(key,val)=>{
         let updated = {
             ...state,
@@ -97,7 +122,8 @@ const AddItem = ({match}) => {
         formData.append('price', state.price);
         formData.append('summary', state.summary);
         formData.append('dateTime', dateTime);
-        formData.append('qty', state.qty);
+        formData.append('qty', state.max_qty);
+        formData.append('category', state.category);
         Axios({
             method: 'post',
             url: config.HOST_NAME,
@@ -156,6 +182,18 @@ const AddItem = ({match}) => {
                                                     </div>
                                                 </div>
 
+                                                <div class="col-lg-3 mb-2">
+                                                    <div class="form-group">
+                                                        <label class="text-label">Category*</label>
+                                                        <select className="form-control" onChange={(val)=>onChange('category',val.target.value)}>
+                                                        <option value=''>Select</option>
+                {category.length > 0 && category.map((item) =>
+                    <option value={item.id} selected={item.id==state.category ?true :false}>{item.catg_name}</option>
+                 )}
+            </select>
+                                                    </div>
+                                                </div>
+
 
                                                 <div class="col-lg-3 mb-2">
                                                     <div class="form-group">
@@ -174,7 +212,7 @@ const AddItem = ({match}) => {
                                                 <div class="col-lg-3 mb-2">
                                                     <div class="form-group">
                                                         <label class="text-label">Max Quantity*</label>
-                                                        <input type="number" name="qty" class="form-control" placeholder="Enter Quantity" onChange={(val)=>onChange('qty',val.target.value)} value={state.qty}/>
+                                                        <input type="number" name="qty" class="form-control" placeholder="Enter Quantity" onChange={(val)=>onChange('max_qty',val.target.value)} value={state.qty}/>
                                                     </div>
                                                 </div>
 

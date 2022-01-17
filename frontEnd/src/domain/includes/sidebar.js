@@ -24,6 +24,11 @@ const Sidebar = () => {
                       {privilege=='1' &&   <li><Link to="/cart">Cart</Link></li>}
                       {privilege=='3'  &&   <li><Link to="/restaurant">Restaurant</Link></li>}
                       {privilege=='3'  &&   <li><Link to="/addRestaurant">AddRestaurant</Link></li>}
+                      {privilege=='3'  &&   <li><Link to="/category">Category</Link></li>}
+                      {privilege=='3'  &&   <li><Link to="/addCategory">AddCategory</Link></li>}
+                      {privilege=='3' &&    <li><Link to="/campaignType"> Campaign Type</Link></li>}
+                      {privilege=='3' &&    <li><Link to="/addCampaignType">Add Campaign Type</Link></li>}
+                      {privilege=='4' &&    <li><Link to="/addcampaign"> Campaign</Link></li>}
 
                         {/*<li><a href="page-order.html">Order</a></li>
                         <li><a href="page-order-list.html">Order List</a></li>

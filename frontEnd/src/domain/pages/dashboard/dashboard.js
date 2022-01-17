@@ -25,6 +25,12 @@ import ListRestaurant from '../Restaurant/list';
 import Restaurant from '../Restaurant/restaurant';
 import ResItem from '../Restaurant/resItem';
 import MaxOrder from '../item/maxOrder';
+import addCategory from '../item/addCategory';
+import Category from '../item/category';
+import AddCategory from '../item/addCategory';
+import AddCampaignType from '../item/addCampaignType';
+import CampaignType from '../item/campaignType';
+import AddCampaign from '../item/addCampaign';
 
 function Dashboard() {
   const [logged,setLogged] = useState(false);
@@ -73,7 +79,13 @@ console.log(`loggedSettings`, loggedSettings)
             <Route exact path='/editRestaurant/:id' component={Restaurant} />
             <Route exact path='/restaurant/:id' component={ResItem} />
             <Route exact path='/setting/maxOrder' component={MaxOrder} />
-
+            <Route exact path='/addCategory' component={AddCategory} />
+            <Route exact path='/category' component={Category} />
+            <Route exact path='/editCategory/:id' component={AddCategory} />
+            <Route exact path='/addCampaignType' component={AddCampaignType} />
+            <Route exact path='/campaignType' component={CampaignType} />
+            <Route exact path='/editCampaignType/:id' component={AddCampaignType} />
+            <Route exact path='/addCampaign' component={AddCampaign} />
             <Footer/>
             </>:
 

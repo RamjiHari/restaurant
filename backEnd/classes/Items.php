@@ -8,7 +8,6 @@ class Items  {
     }
 
     public function getAllItems($data){
-
        $selectId = mysqli_query($this->conn,"select * from `users` where (`slug` ='".$data['id']."' or `email` ='".$data['id']."'  or `username` = '".$data['id']."' )") ;
          $row_user= mysqli_fetch_assoc($selectId);
         if( $row_user!=''){
@@ -18,12 +17,12 @@ class Items  {
        }
     }
     public function insertItems($data,$image){
-  
+ 
       if($data['id']==''){
-        $insertItem = mysqli_query($this->conn,"INSERT INTO `item` (`userId`,  `title`, `image`, `summary`, `price`,`max_qty`, `createdAt`, `updatedAt`) VALUES (".$data['userId'].", '".$data['title']."', '".$image."', '".$data['summary']."', ".$data['price'].",".$data['qty'].",'".$data['datetime']."', NULL)") or die(mysqli_error());
+        $insertItem = mysqli_query($this->conn,"INSERT INTO `item` (`userId`,  `title`,`category`, `image`, `summary`, `price`,`max_qty`, `createdAt`, `updatedAt`) VALUES (".$data['userId'].", '".$data['title']."',".$data['category'].", '".$image."', '".$data['summary']."', ".$data['price'].",".$data['qty'].",'".$data['datetime']."', NULL)") or die(mysqli_error());
     }else{
        
-        $insertItem=mysqli_query($this->conn,"UPDATE `item` SET `userId` = '".$data['userId']."' , `title` = '".$data['title']."', `image` = '".$image."', `summary` = '".$data['summary']."', `max_qty` = '".$data['qty']."',  `price` = '".$data['price']."', `updatedAt` = '".$data['dateTime']."' WHERE `item`.`id` = '".$data['id']."'") or die(mysqli_error());
+        $insertItem=mysqli_query($this->conn,"UPDATE `item` SET `userId` = '".$data['userId']."' , `title` = '".$data['title']."', `category` = ".$data['category'].", `image` = '".$image."', `summary` = '".$data['summary']."', `max_qty` = '".$data['qty']."',  `price` = '".$data['price']."', `updatedAt` = '".$data['dateTime']."' WHERE `item`.`id` = '".$data['id']."'") or die(mysqli_error());
     }
 
         if($insertItem){
@@ -150,5 +149,111 @@ class Items  {
        
 
     }
+
+
+      public function insertCategory($data){
+
+      if($data['id']==''){
+        $insertItem = mysqli_query($this->conn,"INSERT INTO `category` (`catg_name`) VALUES ('".$data['catg_name']."')") or die(mysqli_error());
+    }else{
+       
+        $insertItem=mysqli_query($this->conn,"UPDATE `category` SET `catg_name` = '".$data['catg_name']."'  WHERE `category`.`id` = '".$data['id']."'") or die(mysqli_error());
+    }
+
+        if($insertItem){
+            return true;
+      }else{
+            return false;
+      }
+       
+    }
+
+        public function getAllCategory($data){
+  
+         $select = mysqli_query($this->conn,"SELECT * FROM `category`");
+         return mysqli_fetch_all($select,MYSQLI_ASSOC);
+    }
+      public function getCategory($data){
+
+         $select = mysqli_query($this->conn,"SELECT * FROM `category`  where id='".$data['editId']."'");
+         return mysqli_fetch_assoc($select);
+    }
+       public function deleteCategory($data) {
+         $select = mysqli_query($this->conn,"DELETE FROM `category` WHERE `id` = ".$data['id']."");
+     
+        $getItem = mysqli_query($this->conn,"SELECT * FROM `category` ORDER BY `id` DESC  ");
+        return mysqli_fetch_all($getItem,MYSQLI_ASSOC);
+    }
+
+     public function insertCampaignType($data){
+
+      if($data['id']==''){
+        $insertItem = mysqli_query($this->conn,"INSERT INTO `campaign_type` (`camp_name`) VALUES ('".$data['camp_name']."')") or die(mysqli_error());
+    }else{
+       
+        $insertItem=mysqli_query($this->conn,"UPDATE `campaign_type` SET `camp_name` = '".$data['camp_name']."'  WHERE `campaign_type`.`id` = '".$data['id']."'") or die(mysqli_error());
+    }
+
+        if($insertItem){
+            return true;
+      }else{
+            return false;
+      }
+       
+    }
+
+        public function getAllCampaignType($data){
+  
+         $select = mysqli_query($this->conn,"SELECT * FROM `campaign_type`");
+         return mysqli_fetch_all($select,MYSQLI_ASSOC);
+    }
+      public function getCampaignType($data){
+
+         $select = mysqli_query($this->conn,"SELECT * FROM `campaign_type`  where id='".$data['editId']."'");
+         return mysqli_fetch_assoc($select);
+    }
+       public function deleteCampaignType($data) {
+         $select = mysqli_query($this->conn,"DELETE FROM `campaign_type` WHERE `id` = ".$data['id']."");
+     
+        $getItem = mysqli_query($this->conn,"SELECT * FROM `campaign_type` ORDER BY `id` DESC  ");
+        return mysqli_fetch_all($getItem,MYSQLI_ASSOC);
+    }
+
+
+ public function insertCampaign($data){
+
+      if($data['id']==''){
+        $insertItem = mysqli_query($this->conn,"INSERT INTO `campaign` (`camp_name`) VALUES ('".$data['camp_name']."')") or die(mysqli_error());
+    }else{
+       
+        $insertItem=mysqli_query($this->conn,"UPDATE `campaign` SET `camp_name` = '".$data['camp_name']."'  WHERE `campaign`.`id` = '".$data['id']."'") or die(mysqli_error());
+    }
+
+        if($insertItem){
+            return true;
+      }else{
+            return false;
+      }
+       
+    }
+
+        public function getAllCampaign($data){
+  
+         $select = mysqli_query($this->conn,"SELECT * FROM `campaign`");
+         return mysqli_fetch_all($select,MYSQLI_ASSOC);
+    }
+      public function getCampaign($data){
+
+         $select = mysqli_query($this->conn,"SELECT * FROM `campaign`  where id='".$data['editId']."'");
+         return mysqli_fetch_assoc($select);
+    }
+       public function deleteCampaign($data) {
+         $select = mysqli_query($this->conn,"DELETE FROM `campaign` WHERE `id` = ".$data['id']."");
+     
+        $getItem = mysqli_query($this->conn,"SELECT * FROM `campaign` ORDER BY `id` DESC  ");
+        return mysqli_fetch_all($getItem,MYSQLI_ASSOC);
+    }
+
+
   }
     ?>

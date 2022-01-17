@@ -334,5 +334,202 @@ if(@$_REQUEST['request'] == "insertMaxOrder")
    echo json_encode($response);
 
 }
+if(@$_REQUEST['request'] == "insertCategory")
+{
 
+
+    $userData = $obj_Items->insertCategory($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+    ];
+
+   echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "getAllCategory")
+{
+
+    $itemData = $obj_Items->getAllCategory($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "getCategory")
+{
+
+    $itemData = $obj_Items->getCategory($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+
+if(@$_REQUEST['request'] == "deleteCategory")
+{
+
+    $itemData = $obj_Items->deleteCategory($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+
+
+if(@$_REQUEST['request'] == "insertCampaignType")
+{
+
+
+    $userData = $obj_Items->insertCampaignType($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+    ];
+
+   echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "getAllCampaignType")
+{
+
+    $itemData = $obj_Items->getAllCampaignType($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "getCampaignType")
+{
+
+    $itemData = $obj_Items->getCampaignType($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+
+if(@$_REQUEST['request'] == "deleteCampaignType")
+{
+
+    $itemData = $obj_Items->deleteCampaignType($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+
+
+
+
+if(@$_REQUEST['request'] == "insertCampaign")
+{
+
+
+    $userData = $obj_Items->insertCampaign($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+    ];
+
+   echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "getAllCampaign")
+{
+
+    $itemData = $obj_Items->getAllCampaign($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "getCampaign")
+{
+
+    $itemData = $obj_Items->getCampaign($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
+
+if(@$_REQUEST['request'] == "deleteCampaign")
+{
+
+    $itemData = $obj_Items->deleteCampaign($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $itemData
+  ];
+   echo json_encode($response);
+
+}
 ?>
