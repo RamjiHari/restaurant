@@ -60,7 +60,8 @@ const AddCampaign = ({ match }) => {
   useEffect(() => {
 
     let formData = new FormData();
-    formData.append("request", "getAllResItems");
+    formData.append("request", "getAllItems");
+    formData.append("id", id.username);
     Axios({
       method: "post",
       url: config.HOST_NAME,
@@ -73,7 +74,7 @@ const AddCampaign = ({ match }) => {
 
           setItem(response.data.data);
         } else {
-
+            alert("ll")
           // toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }
       })
