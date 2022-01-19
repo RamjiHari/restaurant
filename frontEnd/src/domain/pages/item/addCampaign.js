@@ -16,17 +16,22 @@ const AddCampaign = ({ match }) => {
     : "";
   const [state, setstate] = useState({
     id: "",
-    camp_name: "",
-    selectedItem:[]
+    type: "",
+    items:[],
+    percentage:'',
+    start_date:'',
+    end_date:'',
 
   });
+
   const [campaign, setCampaign] = useState([]);
   const [item, setItem] = useState([]);
+  let selectedItem =state.items
   const history = useHistory();
   useEffect(() => {
     if (edit_id != "") {
       let formData = new FormData();
-      formData.append("request", "getCampaignType");
+      formData.append("request", "getCampaign");
       formData.append("editId", edit_id);
       Axios({
         method: "post",
@@ -55,8 +60,7 @@ const AddCampaign = ({ match }) => {
   useEffect(() => {
 
     let formData = new FormData();
-    formData.append("request", "getAllItems");
-    formData.append("id", id.username);
+    formData.append("request", "getAllResItems");
     Axios({
       method: "post",
       url: config.HOST_NAME,
@@ -66,10 +70,10 @@ const AddCampaign = ({ match }) => {
       .then(function (response) {
         if (response.data.status == "success") {
 
-            console.log(`response.data.data`, response.data.data)
+
           setItem(response.data.data);
         } else {
-            alert("ll")
+
           // toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }
       })
@@ -116,10 +120,14 @@ const AddCampaign = ({ match }) => {
 
   const saveHandler = () => {
     let formData = new FormData();
-    formData.append("request", "insertCampaignType");
+    formData.append("request", "insertCampaign");
     formData.append("id", state.id);
-    formData.append("camp_name", state.camp_name);
-    console.log(`formData`, state);
+    formData.append("type", state.type);
+    formData.append("items", typeof(state.items)=='string'?state.items: JSON.stringify(state.items));
+    formData.append("percentage", state.percentage);
+    formData.append("start_date", state.start_date);
+    formData.append("end_date", state.end_date);
+    formData.append("admin", id.id);
     Axios({
       method: "post",
       url: config.HOST_NAME,
@@ -127,13 +135,13 @@ const AddCampaign = ({ match }) => {
       config: { headers: { "Content-Type": "multipart/form-data" } },
     })
       .then(function (response) {
-        console.log(`object`, response);
+
         if (response.data.status == "success") {
           toast.warning("Add Successfully", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 8000,
           });
-          history.push("/campaignType");
+          history.push("/campaign");
         } else {
           //toast.warning("Something Wrong",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }
@@ -143,11 +151,33 @@ const AddCampaign = ({ match }) => {
       });
   };
 function onSelect(val){
-
+ selectedItem=[]
+ val.map((item) => {
+   selectedItem.push(item.id)
+ })
+ setstate({
+   ...state,
+   items:selectedItem
+ })
 }
 function onRemove(val){
+  selectedItem=[]
+  val.map((item) => {
+    selectedItem.push(item.id)
+  })
+  setstate({
+    ...state,
+    items:selectedItem
+  })
+}
+function selectItems(){
+ return item.filter(
+    (item) => selectedItem.includes(item.id)
+  );
 
 }
+
+
   return (
     <div class="content-body">
       <div class="container-fluid">
@@ -191,15 +221,16 @@ function onRemove(val){
 
                           <label class="text-label">Campaign*</label>
                           <select
+
                             className="form-control"
                             onChange={(val) =>
-                              onChange("category", val.target.value)
+                              onChange("type", val.target.value)
                             }
                           >
                             <option value="">Select</option>
                             {campaign.length > 0 &&
                               campaign.map((item) => (
-                                <option key={item.id} value={item.id}>
+                                <option selected={item.id==state.type ?true :false} key={item.id} value={item.id}>
                                   {item.camp_name}
                                 </option>
                               ))}
@@ -212,7 +243,7 @@ function onRemove(val){
                           <label class="text-label">Items*</label>
                           <Multiselect
 options={item} // Options to display in the dropdown
-selectedValues={state.selectedItem} // Preselected value to persist in dropdown
+selectedValues={selectItems()} // Preselected value to persist in dropdown
 onSelect={(val)=>onSelect(val)} // Function will trigger on select event
 onRemove={(val)=>onRemove(val)} // Function will trigger on remove event
 displayValue="title" // Property name to display in the dropdown options
@@ -230,8 +261,8 @@ displayValue="title" // Property name to display in the dropdown options
                             name="id"
                             class="form-control"
                             placeholder="Enter %"
-                            onChange={(val) => onChange("id", val.target.value)}
-                            value={state.id}
+                            onChange={(val) => onChange("percentage", val.target.value)}
+                            value={state.percentage}
                           />
                         </div>
                       </div>
@@ -240,14 +271,14 @@ displayValue="title" // Property name to display in the dropdown options
                       <div class="col-lg-4 mb-2">
                         <div class="form-group">
                         <label class="text-label">Start Date*</label>
-                        <input type="date"
+                        <input type="date" onChange={(val) => onChange("start_date", val.target.value)} value={state.start_date}
                         name="start"/>
                           </div>
                           </div>
                           <div class="col-lg-4 mb-2">
                         <div class="form-group">
                         <label class="text-label">End Date*</label>
-                        <input type="date"
+                        <input type="date" onChange={(val) => onChange("end_date", val.target.value)} value={state.end_date}
                         name="end"/>
                           </div>
                           </div>
@@ -255,7 +286,7 @@ displayValue="title" // Property name to display in the dropdown options
                     <button
                       type="button"
                       class="btn btn-primary mt-3"
-                      onClick={() => alert("Still in implement")}
+                      onClick={() => saveHandler()}
                     >
                       Submit
                     </button>

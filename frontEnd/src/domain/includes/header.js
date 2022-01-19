@@ -8,7 +8,7 @@ const Header = () =>  {
     const loginContext = useContext(LoginContext);
 	const dispatch = useDispatch();
     const username=loginContext.userData==undefined ?'':loginContext.userData.username
-    console.log(`usernameusername`, username)
+
     const name = localStorage.getItem("res_user")
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';

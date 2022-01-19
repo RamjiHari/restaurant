@@ -54,10 +54,9 @@ const ResItem = ({match}) => {
         })
         .catch(function (response) {
             toast.warning("Server Prosssblem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-            console.log(response)
+
         });
 	   }
-		// console.log(`JSON.parse(localStorage.getItem("res_user"))`, )
 		clearInterval(ids);
 		}, 3000)
 

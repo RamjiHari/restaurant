@@ -44,8 +44,6 @@ const Login = () => {
         .then(function (response) {
 
             if(response.data.status=='success'){
-                console.log(`responseresponse`, response.data)
-                console.log(response.data.data.row_user,",response.data.data");
                 loginContext.setLogged(true)
                 loginContext.setUserData(response.data.data.row_user)
                 localStorage.setItem('res_user',JSON.stringify(response.data.data.row_user));
@@ -77,7 +75,6 @@ const Login = () => {
         })
         .catch(function (response) {
             toast.warning("Server Prosssblem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-            console.log(response)
         });
     }else{
         toast.success("Please fill  username and password",{position:toast.POSITION.TOP_CENTER,autoClose:8000})

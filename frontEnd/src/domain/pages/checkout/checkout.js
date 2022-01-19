@@ -43,14 +43,14 @@ const addAddress = (event) =>{
     if(id!=''){
     Object.keys(address).forEach((key,value) => {
       if(address[key]=='' && loopContinue_one){
-          console.log(`address[key]`, key)
+
         alert("Please Enter "+key+" value")
         error=true;
         loopContinue_one = false;
       }
   })
 }
-//   console.log(`object`, error)
+
   if(error==false){
     let formData = new FormData();
     formData.append('request', 'insertAddressFromApp')
@@ -72,7 +72,7 @@ const addAddress = (event) =>{
         config: { headers: {'Content-Type': 'multipart/form-data' }}
     })
     .then(function (response) {
-        console.log(`object`, response.data)
+
         if(response.data.status=='success'){
             history.push(`/buy/${response.data.data}`);
         }else{
@@ -82,7 +82,7 @@ const addAddress = (event) =>{
     })
     .catch(function (response) {
         //toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-        console.log(response)
+
     });
 }
 }
@@ -99,7 +99,7 @@ useEffect(() => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
+
             if(response.data.status=='success'){
                 setUserAddress(response.data.data)
             }else{

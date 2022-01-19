@@ -30,7 +30,6 @@ const OrderItem = () => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`responseresponse`, response)
             if(response.data.status=='success'){
 
                 setstate(response.data.data)
@@ -44,7 +43,7 @@ const OrderItem = () => {
             toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         });
     }, [])
-    console.log(`statssse`, state)
+
 //  const handleDelete = (id) => {
 //     let formData = new FormData();
 //     formData.append('request', 'deleteItem')

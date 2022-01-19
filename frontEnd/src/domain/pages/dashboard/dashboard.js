@@ -31,6 +31,7 @@ import AddCategory from '../item/addCategory';
 import AddCampaignType from '../item/addCampaignType';
 import CampaignType from '../item/campaignType';
 import AddCampaign from '../item/addCampaign';
+import Campaign from '../item/campaign';
 
 function Dashboard() {
   const [logged,setLogged] = useState(false);
@@ -42,7 +43,6 @@ function Dashboard() {
     setLogged,
     setUserData,
   };
-console.log(`object`, logged)
   useEffect(() => {
     if(localStorage.getItem('res_user')!=undefined){
     setUserData(JSON.parse(localStorage.getItem('res_user')))
@@ -52,7 +52,7 @@ console.log(`object`, logged)
       setLogged(false)
     }
   }, [localStorage])
-console.log(`loggedSettings`, loggedSettings)
+
   return (
  <Router>
 
@@ -86,6 +86,8 @@ console.log(`loggedSettings`, loggedSettings)
             <Route exact path='/campaignType' component={CampaignType} />
             <Route exact path='/editCampaignType/:id' component={AddCampaignType} />
             <Route exact path='/addCampaign' component={AddCampaign} />
+            <Route exact path='/campaign' component={Campaign} />
+            <Route exact path='/editCampaign/:id' component={AddCampaign} />
             <Footer/>
             </>:
 

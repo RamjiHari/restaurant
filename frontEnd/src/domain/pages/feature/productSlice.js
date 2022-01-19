@@ -19,8 +19,7 @@ export const productsFetch = createAsyncThunk(
         );
         return response.data.data;
       } catch (error) {
-        console.log(`errorerrorerror`, error)
-        console.log(error);
+
       }
 
   }

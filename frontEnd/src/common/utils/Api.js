@@ -14,11 +14,9 @@ let axiosConfig = {
 export const fetchApi = async (url, data) => {
   const reqData= data
 
- console.log(reqData,"VIEW REQ")
   try {
 
     const response = await axios.post(url, data)
-    console.log(response,"ViewRes")
     if (response.status == '200' || response.status == '201') {
       return response;
     }

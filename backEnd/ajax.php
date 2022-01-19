@@ -74,6 +74,20 @@ if(@$_REQUEST['request'] == "getAllItems")
   ];
    echo json_encode($response);
 }
+if(@$_REQUEST['request'] == "getAllResItems")
+{
+
+    $itemData = $obj_Items->getAllResItems($_REQUEST);
+  $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" => $itemData
+  ];
+   echo json_encode($response);
+}
 if(@$_REQUEST['request'] == "insertItems")
 {
     

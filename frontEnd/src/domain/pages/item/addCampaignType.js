@@ -57,7 +57,7 @@ const AddCampaignType = ({match}) => {
         formData.append('request', 'insertCampaignType')
         formData.append('id', state.id);
         formData.append('camp_name',state.camp_name);
-        console.log(`formData`, state)
+
         Axios({
             method: 'post',
             url: config.HOST_NAME,
@@ -65,7 +65,7 @@ const AddCampaignType = ({match}) => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
+
             if(response.data.status=='success'){
 
                 toast.warning("Add Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})

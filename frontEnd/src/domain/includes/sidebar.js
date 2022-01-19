@@ -28,8 +28,8 @@ const Sidebar = () => {
                       {privilege=='3'  &&   <li><Link to="/addCategory">AddCategory</Link></li>}
                       {privilege=='3' &&    <li><Link to="/campaignType"> Campaign Type</Link></li>}
                       {privilege=='3' &&    <li><Link to="/addCampaignType">Add Campaign Type</Link></li>}
-                      {privilege=='4' &&    <li><Link to="/addcampaign"> Campaign</Link></li>}
-
+                      {privilege=='3' &&    <li><Link to="/addcampaign"> Add Campaign</Link></li>}
+                      {privilege=='3' &&    <li><Link to="/campaign"> Campaign</Link></li>}
                         {/*<li><a href="page-order.html">Order</a></li>
                         <li><a href="page-order-list.html">Order List</a></li>
                         <li><a href="page-general-customers.html">General Customers</a></li> */}

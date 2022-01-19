@@ -57,7 +57,7 @@ const AddCategory = ({match}) => {
         formData.append('request', 'insertCategory')
         formData.append('id', state.id);
         formData.append('catg_name',state.catg_name);
-        console.log(`formData`, state)
+
         Axios({
             method: 'post',
             url: config.HOST_NAME,
@@ -65,7 +65,7 @@ const AddCategory = ({match}) => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
+
             if(response.data.status=='success'){
 
                 toast.warning("Add Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})

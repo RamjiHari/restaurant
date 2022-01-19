@@ -39,7 +39,7 @@ if(state.email!='' && state.password!='' && state.username!=''){
     })
     .then(function (response) {
         if(response.data.status=='success'){
-            console.log(response,"response");
+
             history.push('/login');
         }else{
             toast.warning("UserName Already Exists",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
@@ -51,7 +51,7 @@ if(state.email!='' && state.password!='' && state.username!=''){
 
     .catch(function (response) {
         toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-        console.log(response)
+
     });
 }else{
     toast.success("Please fill  username and password",{position:toast.POSITION.TOP_CENTER,autoClose:8000})

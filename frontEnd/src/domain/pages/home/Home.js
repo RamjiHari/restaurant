@@ -15,9 +15,8 @@ const Home = () => {
     ? JSON.parse(localStorage.getItem("res_user"))
     : '';
     const dispatch = useDispatch();
-	console.log(`userIduserIduserId`, userId)
     const { data, error, isLoading } = useGetAllRestaurantQuery({'request':'getAllRes','userId':userId.id,"privilege":userId.privilege});
-    console.log(isLoading,"isLoading")
+
 	data && localStorage.setItem('max_order',data.data.max_order);
     useEffect(() => {
         dispatch(addResName(''))

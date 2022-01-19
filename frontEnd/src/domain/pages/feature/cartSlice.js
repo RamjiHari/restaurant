@@ -20,7 +20,6 @@ const cartSlice = createSlice({
       );
 
       if (existingIndex >= 0) {
-        console.log(state.cartItems,"state.cartItems")
         state.cartItems[existingIndex] = {
           ...state.cartItems[existingIndex],
           cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,

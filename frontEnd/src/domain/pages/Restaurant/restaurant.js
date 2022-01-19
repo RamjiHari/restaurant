@@ -36,7 +36,6 @@ const Restaurant = ({match}) => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
             if(response.data.status=='success'){
                 setstate(response.data.data)
             }else{
@@ -68,7 +67,6 @@ const Restaurant = ({match}) => {
         formData.append('email',state.email);
         formData.append('password', state.password);
         formData.append('dateTime', dateTime);
-        console.log(`formData`, state)
         Axios({
             method: 'post',
             url: config.HOST_NAME,
@@ -76,7 +74,6 @@ const Restaurant = ({match}) => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
             if(response.data.status=='success'){
 
                 toast.warning("Add Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})

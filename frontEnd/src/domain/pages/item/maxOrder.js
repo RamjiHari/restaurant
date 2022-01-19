@@ -28,7 +28,7 @@ const MaxOrder = () => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
+
             if(response.data.status=='success'){
                 toast.warning("Max order Add Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             }else{
@@ -52,7 +52,7 @@ useEffect(() => {
         config: { headers: {'Content-Type': 'multipart/form-data' }}
     })
     .then(function (response) {
-        console.log(`object`, response)
+
         if(response.data.status=='success'){
             if(response.data.data!=undefined){
                 onChange('maxOrder',response.data.data.maxOrder)

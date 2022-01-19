@@ -16,6 +16,14 @@ class Items  {
          return mysqli_fetch_all($select,MYSQLI_ASSOC);
        }
     }
+
+     public function getAllResItems($data){
+       
+         $select = mysqli_query($this->conn,"SELECT * FROM `item` ORDER BY `id` DESC");
+         return mysqli_fetch_all($select,MYSQLI_ASSOC);
+       
+    }
+
     public function insertItems($data,$image){
  
       if($data['id']==''){
@@ -221,12 +229,13 @@ class Items  {
 
 
  public function insertCampaign($data){
-
+   $json_enc=json_encode($data['items']);
       if($data['id']==''){
-        $insertItem = mysqli_query($this->conn,"INSERT INTO `campaign` (`camp_name`) VALUES ('".$data['camp_name']."')") or die(mysqli_error());
+        $insertItem = mysqli_query($this->conn,"INSERT INTO `campaign` (`type`,`items`,`percentage`,`start_date`,`end_date`,`admin`) 
+          VALUES ('".$data['type']."',".$json_enc.",'".$data['percentage']."','".$data['start_date']."','".$data['end_date']."','".$data['admin']."')") or die(mysqli_error());
     }else{
        
-        $insertItem=mysqli_query($this->conn,"UPDATE `campaign` SET `camp_name` = '".$data['camp_name']."'  WHERE `campaign`.`id` = '".$data['id']."'") or die(mysqli_error());
+        $insertItem=mysqli_query($this->conn,"UPDATE `campaign` SET `type` = '".$data['type']."' ,`items` = ".$json_enc.",`percentage` = '".$data['percentage']."' , `start_date` = '".$data['start_date']."' ,`end_date` = '".$data['end_date']."' ,`admin` = '".$data['admin']."'  WHERE `campaign`.`id` = '".$data['id']."'") or die(mysqli_error());
     }
 
         if($insertItem){
@@ -239,7 +248,7 @@ class Items  {
 
         public function getAllCampaign($data){
   
-         $select = mysqli_query($this->conn,"SELECT * FROM `campaign`");
+         $select = mysqli_query($this->conn,"SELECT ca.id,ca.type,ca.percentage,ca.start_date,ca.end_date,ct.camp_name FROM `campaign` as ca left join `campaign_type` as ct on  ca.type=ct.id where  ca.admin='".$data['id']."'");
          return mysqli_fetch_all($select,MYSQLI_ASSOC);
     }
       public function getCampaign($data){
@@ -250,7 +259,7 @@ class Items  {
        public function deleteCampaign($data) {
          $select = mysqli_query($this->conn,"DELETE FROM `campaign` WHERE `id` = ".$data['id']."");
      
-        $getItem = mysqli_query($this->conn,"SELECT * FROM `campaign` ORDER BY `id` DESC  ");
+        $getItem = mysqli_query($this->conn,"SELECT ca.id,ca.type,ca.percentage,ca.start_date,ca.end_date,ct.camp_name FROM `campaign` as ca left join `campaign_type` as ct on  ca.type=ct.id where  ca.admin='".$data['id']."'");
         return mysqli_fetch_all($getItem,MYSQLI_ASSOC);
     }
 

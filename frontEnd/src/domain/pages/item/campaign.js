@@ -1,19 +1,19 @@
 import Axios from 'axios';
-import React,{useState,useEffect,useContext} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { config } from '../../../common/utils/config';
-import LoginContext from '../context/LoginContext';
-toast.configure();
-const Item = () => {
+
+const Campaign = () => {
     const [state, setstate] = useState([])
-    const loginContext = useContext(LoginContext);
-    const id = loginContext.userData==undefined?'': loginContext.userData.username;
+    const id = localStorage.getItem("res_user")
+    ? JSON.parse(localStorage.getItem("res_user"))
+    : "";
     useEffect(() => {
         let formData = new FormData();
-        formData.append('request', 'getAllItems')
-        formData.append('id', id)
+        formData.append('request', 'getAllCampaign')
+        formData.append('id', id.id)
         Axios({
             method: 'post',
             url: config.HOST_NAME,
@@ -23,10 +23,9 @@ const Item = () => {
         .then(function (response) {
 
             if(response.data.status=='success'){
-
                 setstate(response.data.data)
             }else{
-                // toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+                //toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             }
 
         })
@@ -34,13 +33,10 @@ const Item = () => {
             toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         });
     }, [])
-
-
- const handleDelete = (deleteid) => {
+ const handleDelete = (id) => {
     let formData = new FormData();
-    formData.append('request', 'deleteItem')
-    formData.append('id', deleteid)
-    formData.append('editId', loginContext.userData.id)
+    formData.append('request', 'deleteCampaign')
+    formData.append('id', id)
     Axios({
         method: 'post',
         url: config.HOST_NAME,
@@ -49,15 +45,16 @@ const Item = () => {
     })
     .then(function (response) {
         if(response.data.status=='success'){
-            toast.info("Deleted Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+            toast.warning("Deleted Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
             setstate(response.data.data)
         }else{
+            setstate([])
             //toast.warning("Something Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }
 
     })
     .catch(function (response) {
-       // toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
+        toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
     });
  }
     return (
@@ -76,7 +73,7 @@ const Item = () => {
             <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All Items</h4>
+                                <h4 class="card-title">All Campaign Type</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -86,10 +83,10 @@ const Item = () => {
                                             <tr>
 
                                                 <th><strong>S.No</strong></th>
-                                                <th><strong>Title</strong></th>
-
-                                                <th><strong>Image</strong></th>
-                                                <th><strong>Action</strong></th>
+                                                <th><strong>Name</strong></th>
+                                                <th><strong>Percentage</strong></th>
+                                                <th><strong>Start Date</strong></th>
+                                                <th><strong>End Date</strong></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -97,12 +94,15 @@ const Item = () => {
                                             state.map(item=>
                                             <tr key={item.id}>
                                             <td>{item.id}</td>
-                                            <td>{item.title}</td>
+                                            <td>{item.camp_name}</td>
+                                            <td>{item.percentage}</td>
+                                            <td>{item.start_date}</td>
+                                            <td>{item.end_date}</td>
 
-                                            <td><img src={`${config.FILE_PATH}/${item.image}`} width="50" height="50"/></td>
+
                                                     <td>
 													<div class="d-flex">
-														<Link  to={`/editItem/${item.id}`} class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-pencil"></i></Link>
+														<Link  to={`/editCampaign/${item.id}`} class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-pencil"></i></Link>
 														<a  onClick={()=>handleDelete(item.id)}  class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
 													</div>
 												</td>
@@ -126,4 +126,4 @@ const Item = () => {
     );
 }
 
-export default Item;
+export default Campaign;

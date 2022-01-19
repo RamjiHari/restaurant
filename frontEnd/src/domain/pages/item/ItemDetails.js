@@ -16,7 +16,7 @@ const ItemDetails = ({match}) => {
     const loginContext = useContext(LoginContext);
     const id = loginContext.userData==undefined?'': loginContext.userData.id;
     const { data, error, isLoading } = useGetAllProductsQuery({'request':'getItem','editId':edit_id});
-    console.log(`datadatadataddddddatadata`, data)
+
     const [state, setstate] = useState({
         'id':'',
         "userId":id,
@@ -42,7 +42,7 @@ const ItemDetails = ({match}) => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
+
             if(response.data.status=='success'){
                 setstate(response.data.data)
                 if(response.data.data.image!=''){

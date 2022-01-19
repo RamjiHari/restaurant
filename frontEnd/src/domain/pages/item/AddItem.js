@@ -40,7 +40,7 @@ const AddItem = ({match}) => {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
+
             if(response.data.status=='success'){
                 setstate(response.data.data)
                 if(response.data.data.image!=''){
@@ -81,7 +81,7 @@ const AddItem = ({match}) => {
             toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         });
     }, [])
-console.log(`category`, category)
+
     const onChange=(key,val)=>{
         let updated = {
             ...state,
@@ -89,7 +89,7 @@ console.log(`category`, category)
           };
           setstate(updated);
     }
- console.log(`statestate`, state)
+
     const onFileChange =async( event,file,width,height) =>{
         const imageDimensions = true; // await checkDiamension(event,width,height);
         if(imageDimensions){
@@ -131,7 +131,7 @@ console.log(`category`, category)
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         })
         .then(function (response) {
-            console.log(`object`, response)
+
             if(response.data.status=='success'){
 
                 toast.info("Item Add Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})

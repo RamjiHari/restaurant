@@ -39,11 +39,11 @@ const Deliver = ({match}) => {
 
 const checkout = (event) =>{
     event.preventDefault();
-    console.log(`cart`, cart)
+
     let orderjson = cart.cartItems.map(function({id,userId,cartQuantity}){
          return {id,userId,cartQuantity};
      });
-     console.log(`typeOf()`, typeof(orderjson),orderjson)
+
     let formData = new FormData();
     formData.append('request', 'insertOrdersFromApp')
     formData.append('userId', id.id!=undefined?id.id:0)
@@ -59,7 +59,7 @@ const checkout = (event) =>{
         config: { headers: {'Content-Type': 'multipart/form-data' }}
     })
     .then(function (response) {
-        console.log(`object`, response.data)
+
         if(response.data.status=='success'){
 
             toast.warning("Order Added Successfully",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
@@ -76,7 +76,7 @@ const checkout = (event) =>{
     })
     .catch(function (response) {
         toast.warning("Server Problem",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
-        console.log(response)
+
     });
 }
 
