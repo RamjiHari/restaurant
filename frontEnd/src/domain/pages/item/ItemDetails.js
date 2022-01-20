@@ -60,12 +60,13 @@ const ItemDetails = ({match}) => {
         });
         }
     },[edit_id])
-
+console.log(`state`, state)
  const handleAddToCart = (product) => {
 if(cart.cartItems.length<max_cart){
     const itemIndex = cart.cartItems.findIndex(
         (item) => item.id === product.id
       );
+
       if(itemIndex>=0){
         if(cart.cartItems[itemIndex].cartQuantity<Number(cart.cartItems[itemIndex].max_qty)){
             dispatch(addToCart(product));
@@ -166,7 +167,9 @@ if(cart.cartItems.length<max_cart){
                                                     </ul>
                                                     <span class="review-text">(34 reviews) / </span><a class="product-review" href="#">Write a review?</a>
                                                 </div>
-                                                <p class="price">${state.price}</p>
+
+                                                {state.camp_name!=null && <p class="price">{state.camp_name} ({state.percentage}%) <del class="price">${state.amount}</del></p>}
+                                               {state.percentage!=null ? <p class="price">${state.price}</p> :<p class="price">${state.price}</p>}
                                                 <p>Availability: <span class="item"> Yes <i
                                                             class="fa fa-shopping-basket"></i></span>
                                                 </p>

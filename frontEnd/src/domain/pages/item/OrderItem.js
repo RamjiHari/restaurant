@@ -31,7 +31,7 @@ const OrderItem = () => {
         })
         .then(function (response) {
             if(response.data.status=='success'){
-
+console.log(`object`, response.data.data)
                 setstate(response.data.data)
                 //addConfirmCart()
             }else{

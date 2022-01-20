@@ -40,10 +40,27 @@ class Items  {
       }
        
     }
+
     public function getItem($data){
-  
-         $select = mysqli_query($this->conn,"SELECT * FROM `item` WHERE id='".$data['editId']."'");
-         return mysqli_fetch_assoc($select);
+        
+      $rows='';
+      $selectCamp=mysqli_query($this->conn,"select * from campaign where json_contains(items,'\"{$data['editId']}\"') order by id ASC LIMIT 1");
+      $row = mysqli_fetch_assoc($selectCamp);
+
+      $select_type = mysqli_query($this->conn,"SELECT * FROM `campaign_type` WHERE id='".$row['type']."'");
+       $r_type = mysqli_fetch_assoc($select_type) ;
+       $select = mysqli_query($this->conn,"SELECT * FROM `item` WHERE id='".$data['editId']."'");
+       $r = mysqli_fetch_assoc($select) ;
+       $r['amount']=$r['price'];
+       if($row['percentage']!=NULL){
+        $r['price']=($r['price']*$row['percentage'])/100;
+       }else{
+        $r['price']=$r['price'];
+       }
+        $r['camp_name']=$r_type['camp_name'];
+        $r['percentage']= $row['percentage'];
+        $rows = $r;
+      return $rows;
     }
 
      public function deleteItem($data) {
@@ -113,6 +130,7 @@ class Items  {
                   $fetch="SELECT * FROM `item` where id =$value->id";
                   $result=mysqli_query($this->conn,$fetch);
                   while($r = mysqli_fetch_assoc($result)) {
+                    $r['final_amount']= $row['totAmt'];
                     $r['cartQuantity']= $value->cartQuantity;
                   $rows[] = $r;
                 }
