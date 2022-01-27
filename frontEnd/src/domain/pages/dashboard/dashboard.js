@@ -32,6 +32,11 @@ import AddCampaignType from '../item/addCampaignType';
 import CampaignType from '../item/campaignType';
 import AddCampaign from '../item/addCampaign';
 import Campaign from '../item/campaign';
+import Stripe from '../checkout/StripeContainer';
+import StripeContainer from '../checkout/StripeContainer';
+import PaymentForm from '../checkout/PaymentForm';
+import Payment from '../checkout/Payment';
+import Success from '../checkout/Success';
 
 function Dashboard() {
   const [logged,setLogged] = useState(false);
@@ -72,7 +77,7 @@ function Dashboard() {
             <Route exact path='/edititem/:id' component={AddItem} />
             <Route exact path='/cart' component={Cart} />
             <Route exact path='/checkout' component={Checkout} />
-            <Route exact path='/buy/:id' component={Deliver} />
+            {/* <Route exact path='/buy/:id' component={Deliver} /> */}
             <Route exact path='/orders' component={OrderItem} />
             <Route exact path='/addRestaurant' component={Restaurant} />
             <Route exact path='/restaurant' component={ListRestaurant} />
@@ -88,6 +93,8 @@ function Dashboard() {
             <Route exact path='/addCampaign' component={AddCampaign} />
             <Route exact path='/campaign' component={Campaign} />
             <Route exact path='/editCampaign/:id' component={AddCampaign} />
+            <Route exact path='/buy/:id' component={Payment} />
+            <Route exact path='/success' component={Success} />
             <Footer/>
             </>:
 

@@ -53,7 +53,7 @@ class Items  {
        $r = mysqli_fetch_assoc($select) ;
        $r['amount']=$r['price'];
        if($row['percentage']!=NULL){
-        $r['price']=($r['price']*$row['percentage'])/100;
+        $r['price']=$r['price']-($r['price']*$row['percentage'])/100;
        }else{
         $r['price']=$r['price'];
        }
@@ -88,9 +88,9 @@ class Items  {
 
         $inserAdd = mysqli_query($this->conn,"INSERT INTO `orders` ( `userId`, `addId`, `orderjson`, `totAmt`, `totQua`, `payMode`, `status`) VALUES (".$data['userId'].", ".$data['addId'].", ".$json_enc.", ".$data['totAmt'].", ".$data['totQua'].", '".$data['payMode']."', 0)") or die(mysqli_error());
 
-   
+    $last_id = mysqli_insert_id($this->conn);
         if($inserAdd){
-            return true;
+            return $last_id;
       }else{
             return false;
       }
@@ -119,7 +119,7 @@ class Items  {
 
     public function getOrdersFromApp($data){
 
-         $select = mysqli_query($this->conn,"SELECT * FROM `orders` WHERE userId='".$data['userId']."' and status='0'");
+         $select = mysqli_query($this->conn,"SELECT * FROM `orders` WHERE userId='".$data['userId']."' and status='1'");
          $rows=[];
          if(mysqli_num_rows($select) > 0){
           while ($row = mysqli_fetch_assoc($select)) {
@@ -279,6 +279,17 @@ class Items  {
      
         $getItem = mysqli_query($this->conn,"SELECT ca.id,ca.type,ca.percentage,ca.start_date,ca.end_date,ct.camp_name FROM `campaign` as ca left join `campaign_type` as ct on  ca.type=ct.id where  ca.admin='".$data['id']."'");
         return mysqli_fetch_all($getItem,MYSQLI_ASSOC);
+    }
+        public function payment($data){
+        $inserAdd = mysqli_query($this->conn,"UPDATE `orders` SET `status` = '1', `tranx_id` = '".$data['id']."' WHERE `orders`.`id` = '".$data['orderId']."'") or die(mysqli_error());
+
+        if($inserAdd){
+            return true;
+      }else{
+            return false;
+      }
+       
+
     }
 
 

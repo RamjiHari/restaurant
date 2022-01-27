@@ -10,7 +10,6 @@ include 'classes/Items.php';
 include 'classes/Restaurant.php';
 
 
-
 $obj_Apps = new Apps($con);
 
 $settings = $obj_Apps->getSettings();
@@ -19,6 +18,7 @@ $APP_PATH = $obj_Apps->getAppPath();
 $obj_Users = new Users($con,$APP_PATH);
 $obj_Items = new Items($con,$APP_PATH);
 $obj_Resta = new Restaurant($con,$APP_PATH);
+
 
 
 $userListCount = 10;
@@ -243,6 +243,7 @@ if(@$_REQUEST['request'] == "insertOrdersFromApp")
     }
     $response = [
       "status" => $status,
+      "data"=>   $userData,
       "_REQUEST"=>$_REQUEST['orderjson']
     ];
 
@@ -546,4 +547,22 @@ if(@$_REQUEST['request'] == "deleteCampaign")
    echo json_encode($response);
 
 }
+
+if(@$_REQUEST['request'] == "payment")
+{
+
+  $itemData = $obj_Items->payment($_REQUEST);
+   $status = "failed";
+  if($itemData){
+    $status = "success";
+  }
+  $response = [
+    "status" => $status,
+    "data" =>   $_REQUEST
+  ];
+   echo json_encode($response);
+
+}
+
+
 ?>

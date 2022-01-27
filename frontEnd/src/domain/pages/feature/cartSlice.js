@@ -5,8 +5,8 @@ const initialState = {
   cartItems: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [],
-  cartTotalQuantity: 0,
-  cartTotalAmount: 0,
+  cartTotalQuantity:localStorage.getItem("cartItemsQuantity")? localStorage.getItem("cartItemsQuantity"):0,
+  cartTotalAmount:localStorage.getItem("cartTotalAmount")? localStorage.getItem("cartTotalAmount"):0,
   cartConfirm:0
 };
 
@@ -95,6 +95,8 @@ const cartSlice = createSlice({
         }
       );
       total = parseFloat(total.toFixed(2));
+      localStorage.setItem("cartItemsQuantity", JSON.stringify(quantity));
+      localStorage.setItem("cartTotalAmount", JSON.stringify(total));
       state.cartTotalQuantity = quantity;
       state.cartTotalAmount = total;
     },
@@ -105,7 +107,9 @@ const cartSlice = createSlice({
     clearCart(state, action) {
       state.cartItems = [];
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-      toast.error("Cart cleared", { position: "bottom-left" });
+      localStorage.setItem("cartItemsQuantity", 0);
+      localStorage.setItem("cartTotalAmount", 0);
+      //toast.error("Cart cleared", { position: "bottom-left" });
     },
   },
 });
