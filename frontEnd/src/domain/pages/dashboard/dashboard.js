@@ -37,6 +37,7 @@ import StripeContainer from '../checkout/StripeContainer';
 import PaymentForm from '../checkout/PaymentForm';
 import Payment from '../checkout/Payment';
 import Success from '../checkout/Success';
+import ViewOrder from '../item/ViewOrder';
 
 function Dashboard() {
   const [logged,setLogged] = useState(false);
@@ -79,6 +80,7 @@ function Dashboard() {
             <Route exact path='/checkout' component={Checkout} />
             {/* <Route exact path='/buy/:id' component={Deliver} /> */}
             <Route exact path='/orders' component={OrderItem} />
+            <Route exact path='/orders/:id' component={ViewOrder} />
             <Route exact path='/addRestaurant' component={Restaurant} />
             <Route exact path='/restaurant' component={ListRestaurant} />
             <Route exact path='/editRestaurant/:id' component={Restaurant} />

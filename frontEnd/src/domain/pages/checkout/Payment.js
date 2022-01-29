@@ -21,9 +21,10 @@ const Payment = ({match}) => {
 const checkout = (event) =>{
     event.preventDefault();
 
-    let orderjson = cart.cartItems.map(function({id,userId,cartQuantity}){
-         return {id,userId,cartQuantity};
+    let orderjson = cart.cartItems.map(function({id,userId,cartQuantity,price,title}){
+         return {id,userId,cartQuantity,price,title};
      });
+
 
     let formData = new FormData();
     formData.append('request', 'insertOrdersFromApp')
@@ -43,7 +44,7 @@ const checkout = (event) =>{
         if(response.data.status=='success'){
 
         console.log(`object`, response.data.data)
-        window.location = `https://r1.ngazelabs.com/includes/stripe-custom/?id=${response.data.data}`
+        window.location = `${config.PAYMENT}?id=${response.data.data}`
         }else{
             toast.warning("Some thing error",{position:toast.POSITION.TOP_CENTER,autoClose:8000})
         }

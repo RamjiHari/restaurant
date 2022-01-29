@@ -251,11 +251,30 @@ if(@$_REQUEST['request'] == "insertOrdersFromApp")
 
 }
 
-if(@$_REQUEST['request'] == "getOrdersFromApp")
+if(@$_REQUEST['request'] == "getOrders")
 {
 // print_r($_REQUEST['orderjson']);
 
-    $userData = $obj_Items->getOrdersFromApp($_REQUEST);
+    $userData = $obj_Items->getOrders($_REQUEST);
+
+    if($userData){
+        $status = "success";
+    }else{
+        $status = "failed";
+    }
+    $response = [
+      "status" => $status,
+      "data" =>   $userData
+    ];
+
+   echo json_encode($response);
+
+}
+if(@$_REQUEST['request'] == "getAddressFromApp")
+{
+// print_r($_REQUEST['orderjson']);
+
+    $userData = $obj_Items->getAddressFromApp($_REQUEST);
 
     if($userData){
         $status = "success";
@@ -271,11 +290,11 @@ if(@$_REQUEST['request'] == "getOrdersFromApp")
 
 }
 
-if(@$_REQUEST['request'] == "getAddressFromApp")
+if(@$_REQUEST['request'] == "getOrdersDetail")
 {
 // print_r($_REQUEST['orderjson']);
 
-    $userData = $obj_Items->getAddressFromApp($_REQUEST);
+    $userData = $obj_Items->getOrdersDetail($_REQUEST);
 
     if($userData){
         $status = "success";

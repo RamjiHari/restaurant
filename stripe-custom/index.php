@@ -7,11 +7,11 @@ require_once 'db_config.php';
 $domain =$_SERVER['REQUEST_URI'];
 $url_components = parse_url($domain);
 parse_str($url_components['query'], $params);
-
   $orderId=$params['id'];
   $selectOrder = mysqli_query($con,"SELECT * FROM `orders` WHERE id='".$orderId."'");
   $rowOrder = mysqli_fetch_assoc($selectOrder);
-  $amount=$rowOrder['totAmt'];
+  $doller=$rowOrder['totAmt'];
+  $amount=bcmul($doller,100);
   $addId=$rowOrder['addId'];
   $selectAdd = mysqli_query($con,"SELECT * FROM `address` WHERE id='".$addId."'");
   $rowAdd = mysqli_fetch_assoc($selectAdd);
@@ -140,7 +140,7 @@ button:active {
                 <br><br>
                 <!--  <img src="code-icon-6.png" alt="Subscribe" width="120px" height="100px"><br><br>
 <p style="text-align: center;"><strong>Stripe Source Code</strong> </p> -->
-        <p class="main-amount"><strong><?php echo $amount.'$'; ?></strong></p>
+        <p class="main-amount"><strong><?php echo ($amount/100).'$'; ?></strong></p>
               </div>
       <div class="col-lg-6">
 
